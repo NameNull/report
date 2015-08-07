@@ -5,6 +5,16 @@
 
 <struts>
 	<package namespace="/" name="front" extends="struts-default">
-		
+		<action name="profit" method="findProfits" class="com.ace.action.ProfitAction">
+			<result>/pages/profit/list.jsp</result>
+		</action>
+	</package>
+	<package namespace="/ajax" name="ajax" extends="json-default">
+		<action name="*/*" method="{1}" class="com.ace.action.ProfitAction">
+			<param name="id">{2}</param>
+			<result type="json" name="ajaxSuccess">
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
 	</package>
 </struts>

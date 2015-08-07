@@ -29,7 +29,6 @@ public class EncodingFilter implements Filter {
 			FilterChain arg2) throws IOException, ServletException {
 		HttpServletRequest request=(HttpServletRequest) arg0;
 		HttpServletResponse response=(HttpServletResponse) arg1;
-		System.out.println("编码过滤器");
 		String encoding=config.getInitParameter("Encoding");
 		if(StringUtils.isNotEmpty(encoding)){
 			request.setCharacterEncoding(encoding);

@@ -47,7 +47,6 @@ public class DateUtils {
 		return startTime;
 	}
 	
-	
 	/**
 	 * 获取日期几分钟前，几年前
 	 * 方法名：getTimeFormat<BR>

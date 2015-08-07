@@ -1,0 +1,123 @@
+body,html{overflow:hidden;}
+#container{margin:0 auto;width:100%}
+#header{position:relative;position:fixed;top:0;left:0;z-index:99;width:100%;height:45px;border-bottom:#080808 1px solid;background-color:#222;-webkit-box-shadow:0 0 4px #333;-moz-box-shadow:0 0 4px #333;box-shadow:0 0 4px #333}
+#mainContent{margin-top:46px;margin-bottom:1px;margin-left:1px;}
+#sidebar{position:fixed;top:42px;left:0;float:left;overflow:hidden;padding-top:10px;width:186px;height:100%;border-right:#080808 1px solid;background-color:#333;-webkit-box-shadow:0 0 4px #333;-moz-box-shadow:0 0 4px #333;box-shadow:0 0 4px #333}
+#content{margin-left:188px!important;margin-left:188px}
+#header,.Hui_logo{padding-left:10px;height:44px;color:#fff;font-weight:bold;font-size:16px;cursor:pointer;padding-top:7px;}
+#header .subtitle{padding-left:10px;color:#eee;font-size:12px;padding-top:7px;}
+#header .Hui_nav{margin-right:100px;margin-left:150px}
+.Hui_nav li a{color:#999;white-space:nowrap;cursor:pointer}
+.Hui_nav li,.Hui_nav li a{display:block;height:44px;line-height:44px}
+.Hui_nav li{float:left;width:75px;text-align:center}
+.Hui_nav li,.Hui_nav li a{display:block;height:44px;line-height:44px}
+.ta{border:1px solid #d9d9d9}
+.ta_title{padding:0 10px;height:35px;background:#e7e7ee;line-height:35px;borde-rbottom:1px solid #d9d9d9}
+.ta_selete{margin:6px 17px;height: 39px;}
+.tase_span{display:inline-block;width:50px;height:29px;background:#3e9257;color:#fff;text-align:center;line-height:29px}
+.selete{float:right}
+.ta_input{padding:5px 10px;width:121px;height:17px;border:1px solid #ccc;border-left:0}
+.table .tmui-items td{font-size:12px;height:35px;border-bottom:1px solid #d9d9d9;border-right:1px solid #d9d9d9;text-align:center;line-height:35px}
+.table .ta_tr td{border-top:1px solid #d9d9d9;font-size:12px;height:35px;border-bottom:1px solid #d9d9d9;border-right:1px solid #d9d9d9;text-align:center;line-height:35px}
+.table .tmui-items:hover{background:#e5e5e5}
+.ta_tr{background:#e7e7ee;font-weight:bold}
+#sidebar li{float:left;padding-left:20px;width:166px;height:36px;border-bottom:1px solid #222;color:#fff;text-align:left;line-height:36px;position: relative;}
+#sidebar li b {
+position: absolute;
+display: block;
+background: url(http://www.h-ui.net/static/h-ui/images/icon_jt2.png) no-repeat 0 -6px;
+font-size: 0;
+height: 5px;
+right: 25px;
+line-height: 0;
+top: 50%;
+width: 9px;
+margin-top: -3px;
+}
+#sidebar li a{color:#fff;text-decoration:none}
+#sidebar li:hover{background:#3e9257}
+#sidebar li.selected{background:#3e9257}
+#box{border:1px solid #ccc;background:#f9f9f9;box-shadow:0 0 1em #ccc}
+#box ul li{list-style:none;list-style-type:none;list-style-image:none}
+#box ul li{height:38px;border-bottom:1px solid #d2d2d2;text-indent:30px;line-height:38px}
+#box ul li:hover{background:#f0f8fd}
+#box .name{width:85%}
+#box .name-text{float:left;display:block;overflow:hidden;margin-top:-2px;width:100%;text-overflow:ellipsis;white-space:nowrap}
+#box .chk{position:relative;top:8px;left:16px;width:16px;height:16px}
+#box .icon{margin-left:10px}
+#box .col{float:left}
+#box .buttons{float:left;display:none}
+#box ul li:hover .buttons{display:block}
+#box .header{height:45px;border-bottom:1px solid #ddd;line-height:45px}
+#box .upload{position:relative;top:5px;left:30px}
+.input{width:240px;height:32px;border:1px solid #ccc;border-radius:1px}
+.tmui-overlay{position:absolute;top:0;left:0;z-index:9;width:100%;height:100%;background-color:#000;opacity:.58;filter:alpha(opacity=58);-moz-opacity:.58;-khtml-opacity:.58}
+.pagination{font-size:12px}
+.pagination a{border:solid 1px #ccc;color:#999;text-decoration:none}
+.pagination a,.pagination span{float:left;display:block;margin-right:5px;margin-bottom:5px;padding:.3em .5em;min-width:1em;text-align:center}
+.pagination .current{border:solid 1px #ccc;background:#999;color:#fff}
+.pagination .current.prev,.pagination .current.next{border-color:#999;background:#fff;color:#999}
+.tm_psize_go{position:relative;float:left;margin-right:4px;padding:5px;height:32px;border:1px solid #ccc;line-height:32px}
+#tm_pagego{float:left;width:30px;height:31px;border:1px solid #ccc;text-align:center;line-height:31px}
+#tmimgbox{position:absolute;top:0;left:0;z-index:100;padding:10px;border:2px solid #e5e5e5;border-radius:4px;background:#f9f9f9;box-shadow:1px 1px 1em #333}
+#tmimgbox .icon{background:url('images/icon.png')}
+#tmimgbox .close{position:absolute;top:-14px;right:0;right:-15px;display:inline-block;width:29px;height:26px;background-position:0 0}
+
+.btn_codeShare {
+position: absolute;
+top: 8px;
+right: 20px;
+}
+
+.btn-success {
+color: #fff;
+text-shadow: 0 -1px 0 rgba(0,0,0,0.25);
+background-color: #51a351;
+background-image: -moz-linear-gradient(top,#62c462,#51a351);
+background-image: -webkit-gradient(linear,0 0,0 100%,from(#62c462),to(#51a351));
+background-image: -webkit-linear-gradient(top,#62c462,#51a351);
+background-image: -o-linear-gradient(top,#62c462,#51a351);
+background-image: linear-gradient(to bottom,#62c462,#51a351);
+background-repeat: repeat-x;
+border-color: #51a351 #51a351 #387038;
+border-color: rgba(0,0,0,0.1) rgba(0,0,0,0.1) rgba(0,0,0,0.25);
+filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff62c462',endColorstr='#ff51a351',GradientType=0);
+filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+.btn {
+display: inline-block;
+padding: 3px 12px;
+cursor: pointer;
+font-size: 14px;
+text-align: center;
+white-space: nowrap;
+vertical-align: middle;
+border-color: #e6e6e6 #e6e6e6 #b3b3b3 #bfbfbf;
+box-shadow: inset 0 1px 0 rgba(255,255,255,0.2),0 1px 2px rgba(0,0,0,0.05);
+-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+-o-user-select: none;
+user-select: none;
+}
+.radius {
+border-radius: 4px;
+}
+
+
+/*右边代码开始*/
+.xt_right{ position:relative; width:auto; background:#ffffff; z-index:1;}
+.xtrt_bt{ width:97.6%; margin:0 auto; padding-top:15px;}
+.xtrt_bt1{ width:100%; height:40px; border-bottom:1px solid #dddddd; background:#eaeaea;}
+.xtrt_bt span{ display:block; float:left; margin-left:12px;}
+.xtrt_bt span.entry{ width:19px; height:17px; background-position:-71px 0px; margin-top:11px;}
+.xtrt_bt p{ float:left; padding-left:8px; line-height:40px; font-size:16px;}
+.xtrt_nr{ width:91.6%; margin:0 auto; padding-top:20px; padding-bottom:30px;}
+.text_box{ width:470px; height:40px; border:1px solid #dddddd; background:#ffffff; -moz-border-radius:2px;-webkit-border-radius:2px;border-radius: 2px;}
+.xtrt_nr td{ height:50px;}
+.text_btn{ width:170px; height:40px; background:#3b764c; text-align:center; color:#ffffff; font-size:16px; border:0px; cursor:pointer; -moz-border-radius:2px;-webkit-border-radius:2px;border-radius: 2px;}
+.radio_sty{ width:60px; height:18px; padding-top:11px; float:left;}
+.radio_sty a{ display:block; width:18px; height:18px; background-position:-48px -32px; float:left;}
+.radio_sty a.aselect{ background-position:-48px -56px;}
+.radio_sty p{ float:left; padding-left:3px; line-height:18px;}
+/*右边代码结束*/
