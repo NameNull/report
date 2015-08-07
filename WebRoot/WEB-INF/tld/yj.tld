@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<taglib xmlns="http://java.sun.com/xml/ns/javaee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd"
+    version="2.1">
+   <!-- 自定义标签描述 --> 
+  <description>自定义函数标签库</description>
+  <display-name>标签-函数</display-name>
+  <tlib-version>1.1</tlib-version>
+  <!-- 自定义标签前缀 -->
+  <short-name>yj</short-name>
+  <!-- 自定义标签uri//如果采用jstl1.2以上版本可以不写 -->
+  <uri></uri>
+ 	
+  <function>
+  <!-- 方法描述 -->
+    <description>
+    	  日期：几天前，几年前，几秒前...
+    </description>
+    <!-- 标签名 -->
+    <name>getTimeFormat</name>
+    <!-- 对应java类 -->
+    <function-class>cn.yjava.util.DateUtils</function-class>
+    <!-- 对应类中方法 -->
+    <function-signature>String getTimeFormat(java.util.Date)</function-signature>
+    <!-- 示例 -->
+    <example>
+      ${yj:getTimeFormat("2015-1-11 13:13:13")}
+    </example>
+  </function>
+  
+  <function>
+    <description>
+    	  日期：String日期转成Date...
+    </description>
+    <name>stringToDate</name>
+    <function-class>cn.yjava.util.DateUtils</function-class>
+    <function-signature>Date stringToDate(java.lang.String)</function-signature>
+    <example>
+      ${yj:stringToDate("2015-1-11 13:13:13")}
+    </example>
+  </function>
+  
+  <function>
+    <description>
+    	  日期格式化：yyyy:MM:dd HH:mm:ss
+    </description>
+    <name>formatDate</name>
+    <function-class>cn.yjava.util.DateUtils</function-class>
+    <function-signature>String formatDate(java.util.Date,java.lang.String)</function-signature>
+    <example>
+      ${yj:formatDate(new Date(),"MM")}
+    </example>
+  </function>
+  
+  <function>
+    <description>
+    	  数字转日期：9999--九千九百九十九
+    </description>
+    <name>intToNumber</name>
+    <function-class>cn.yjava.util.StringUtils</function-class>
+    <function-signature>String intToChnNumConverter(int)</function-signature>
+    <example>
+      ${yj:intToNumber(1)}
+    </example>
+  </function>
+  
+  <function>
+    <description>
+    	  截取文章
+    </description>
+    <name>cutContent</name>
+    <function-class>cn.yjava.util.StringUtils</function-class>
+    <function-signature>String cutContent(java.lang.String,int,int)</function-signature>
+    <example>
+      ${yj:cutContent("你好吗",0,1)}
+    </example>
+  </function>
+</taglib>
