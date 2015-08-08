@@ -15,5 +15,6 @@ public class BaseAction{
 	public static final String SUCCESS = "success";
 	public static final String FAIL = "fail";
 	public static final String LOGIN="login";
-	public static final String EXIT="exit";
+	public static final String INDEX="index";
+	public static final String LOGINACTION="loginAction";
 }

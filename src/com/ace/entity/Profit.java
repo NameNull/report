@@ -32,7 +32,11 @@ public class Profit implements Serializable{
 	private Integer status;
 	//收入类型
 	private Integer typeId;
-	
+	//冗余字段
+	//收入者名
+	private String userName;
+	//收入类型名
+	private String typeName;
 	public Profit(){
 		
 	}
@@ -43,6 +47,7 @@ public class Profit implements Serializable{
 	public Integer getId() {
 		return id;
 	}
+	//setter & getter
 	public void setId(Integer id) {
 		this.id = id;
 	}
@@ -93,5 +98,17 @@ public class Profit implements Serializable{
 	}
 	public void setTypeId(Integer typeId) {
 		this.typeId = typeId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getTypeName() {
+		return typeName;
+	}
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
 	}
 }

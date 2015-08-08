@@ -1,16 +1,9 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<!-- 通用标签的导入 -->
 <%@include file="../../common/taglib.jsp" %>
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>收入页面-潭州学院财务管理系统</title>
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!-- 通用样式和JS的导入 -->
+    <title>收入页面-财务管理系统</title>
 	<%@include file="../../common/common.jsp" %>
 	<style type="text/css">
 		#content{position: relative;}
@@ -26,29 +19,29 @@
 	  <%@include file="../../common/header.jsp" %>
 	  <!-- 中间内容 -->
 	  <div id="mainContent">
-	    <!-- 右侧导航栏 -->	
+	    <!-- 左侧导航栏 -->	
 	    <div id="sidebar">
 	    	<%@include file="../../common/slider.jsp" %>
 	    </div>
 	    <!-- 内容区域 -->
 	    <div id="content">
 	    	<div class="cheader">
-	    		<p class="ta_title"><a href="${basePath}/profit/list">【返回列表】</a>添加收入</p>
+	    		<p class="ta_title"><a href="profit/list">【返回列表】</a>添加收入</p>
 	    	</div>
 	    	<!--表格-->
 			<div id="contentbox">
-				<input type="hidden" id="profitId" name="profitBean.id" value="${profitBean.id}">
+				<input type="hidden" id="profitId" name="profit.id" value="">
 				<form id="profitform" method="post">
 				<div class="xt_right">
 			     <div class="xtrt_nr">
-			          <table width="100%" border="0" cellpadding="0" cellspacing="0">
+			          <table width="100%">
 			          <tr>
 				          <td width="115">收入来源：</td>
 				          <td>  
-				          	<select name="profitBean.typeId" id="typeId" class="text_box">
+				          	<select name="profit.typeId" id="typeId" class="text_box" style="width: 472px;">
 				          		<option value="">--请选择收入类型--</option>
-				          		<c:forEach var="pt" items="${maps}">
-				          			<option ${pt.id==profitBean.typeId ? 'selected="selected"':''}   value="${pt.id}">${pt.name}</option>
+				          		<c:forEach var="map" items="${maps}">
+				          			<option value="${map.id}">${map.name}</option>
 				          		</c:forEach>
 				          	</select>
 				          	<i class="red">*</i>
@@ -56,21 +49,21 @@
 				          </td>
 			          </tr>
 			          <tr>
-			          <td width="115">收入的金额：</td>
+			          <td width="115">收入金额：</td>
 			          <td>
-			          	<input type="text" name="profitBean.money" value="${profitBean.money}" class="text_box" autofocus="autofocus" id="money" maxlength="10" placeholder="请输入收入的金额"><i class="red">*</i>
+			          	<input type="text" name="profit.money" value="" class="text_box" autofocus="autofocus" id="money" maxlength="10" placeholder="请输入收入的金额"> <i class="red">*</i>
 			          	<span class="errormessage red"></span>
 			          </td>
 			          </tr>
 			          <tr>
 			          <td width="115" style="vertical-align: top;">收入描述：</td>
-			          <td><textarea class="text_box" name="profitBean.description" id="description" maxlength="600" style="height: 200px;" placeholder="请输入收入的描述">${profitBean.description}</textarea></td>
+			          <td><textarea class="text_box" name="profit.description" id="description" maxlength="600" style="height: 200px;" placeholder="请输入收入的描述"></textarea></td>
 			          </tr>
 			          <tr>
 			          <td width="115"></td>
 			          <td>
 			          	<input type="button" onclick="tm_save(this)" class="text_btn" value="保存收入">
-			          	<input type="button" onclick="window.location.href='${basePath}/profit/list'" class="text_btn" value="返回">
+			          	<input type="button" onclick="window.location.href='profit/list'" class="text_btn" value="返回">
 			          </td>
 			          </tr>
 			          </table>
@@ -92,14 +85,8 @@
 				$("#contentbox").height(height-90);
 			});
 		});
-		
-		
-		
-		//等整个项目做完的一会教大家如何去封装一个validator插件
 		function tm_validator(){
-			//类型
 			var typeId = $("#typeId").val();
-			//金额
 			var money = $("#money").val();
 			if(isEmpty(typeId)){
 				$("#typeId").focus();
@@ -116,11 +103,9 @@
 			}else{
 				$("#money").parent().find(".errormessage").empty();
 			}
-			
-			//isNaN 是javascript提供判别一个字符串是否是数字 isNaN(1) = false isNaN("s")=true
 			if(isNaN(money)){
 				$("#money").focus();
-				$("#money").parent().find(".errormessage").html("金额是数字!");
+				$("#money").parent().find(".errormessage").html("金额需要为数字!");
 				return false;
 			}else{
 				$("#money").parent().find(".errormessage").empty();
@@ -131,36 +116,30 @@
 		/*添加收入*/
 		function tm_save(obj){
 			if(!tm_validator())return;
-			//类型
 			var typeId = $("#typeId").val();
-			//金额
 			var money = $("#money").val();
-			//描述
 			var description = $("#description").val();
 			var params = {
-				"profitBean.typeId":typeId,
-				"profitBean.money":money,
-				"profitBean.description":description
+				"profit.typeId":typeId,
+				"profit.money":money,
+				"profit.description":description
 			};
-			//data:$("#profitform").serialize(),
 			$(obj).removeAttr("onclick").val("数据保存中....");
 			var id = $("#profitId").val();
 			var method = "save";
-			
-			if(isNotEmpty(id)){//如果id不为空
-				params["profitBean.id"] = id;
+			if(isNotEmpty(id)){
+				params["profit.id"] = id;
 				method = "update";
 			}
-			
 			$.ajax({
 				type:"post",
-				url:basePath+"/json/profit/"+method,
+				url:basePath+"ajax/profit/"+method,
 				data:params,
-				error:function(){$(obj).attr("onclick","tm_save(this)").val("保存收入");},
+				error:function(){$(obj).attr("onclick","tm_save(this)").val("保存收入");alert("服务器异常！");},
 				success:function(data){
 					$(obj).attr("onclick","tm_save(this)").val("保存收入");
 					if(data.result=="success"){
-						window.location.href =  basePath+"/profit/list";
+						window.location.href = basePath+"profit/list";
 					}else{
 						$("#money").val("").focus();
 						alert("添加失败");

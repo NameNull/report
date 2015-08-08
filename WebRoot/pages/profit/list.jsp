@@ -1,87 +1,75 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <!-- 通用标签的导入 -->
 <%@include file="/common/taglib.jsp" %>
+<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE HTML>
 <html>
   <head>
     <title>收入页面-财务管理系统</title>
-	<!-- 通用样式和JS的导入 -->
 	<%@include file="/common/common.jsp" %>
-	<script type="text/javascript" src="${basePath}/js/jquery.pagination.js"></script>
+	<script type="text/javascript" src="js/jquery.pagination.js"></script>
 	<style type="text/css">
 		#content{position: relative;}
-		.cheader{position: fixed;width: 100%;top:52px;z-index: 5;}
-		#contentbox{overflow-y:auto;width: 100%; position:absolute;top: 42px; }
+		.cheader{position: fixed;width: 100%;top:52px;z-index: 5;min-width:650px;}
+		#contentbox{overflow-y:auto;width: 100%; position:absolute;top: 42px; min-width:670px;}
 		.tmui-buttons a{background:green;color:#fff;float: left;padding: 5px;}
 		#typeId{padding:5px;}
 		.range{width: 60px;}
 	</style>
   </head>
   <body>
-  	<% 
-		Date date=new Date();
-  		pageContext.setAttribute("date", date);
-	%>
   	<!-- 容器 -->
   	<div id="container">
   	  <!-- 头部 -->
 	  <%@include file="/common/header.jsp" %>
 	  <!-- 中间内容 -->
 	  <div id="mainContent">
-	    <!-- 右侧导航栏 -->	
+	    <!-- 左侧导航栏 -->	
 	    <div id="sidebar">
 	    	<%@include file="/common/slider.jsp" %>
 	    </div>
 	    <!-- 内容区域 -->
 	    <div id="content">
-	    	<div class="cheader"><p class="ta_title">收入明细列表</p></div>
+	    	<div class="cheader">
+	    		<p class="ta_title fl">收入明细列表</p>
+	    		<p class="totalNum">共<span id="totalNum">${fn:length(profits)}</span>条结果</p>
+	    	</div>
 	    	<!--表格-->
 			<div id="contentbox">
 				<!--标题-->
 				<!--日期-->
 				<div class="ta_selete tmui-buttons">
 					<div class="fl"><a class="fl" href="profit/add">添加收入明细</a> </div>
-					<div class="fl">
-						&nbsp;&nbsp;类型:
+					<div class="fr">
+						&nbsp;&nbsp;类型：
 						<select id="typeId" onchange="tm_searchProfit(this,false)">
 							<option value="">--请选择类型--</option>
-			          			<option value=""></option>
+			          		<c:forEach items="${maps}" var="map">
+			          			<option value="${map.id}">${map.name}</option>
+			          		</c:forEach>
 						</select>
-						金额范围
-						<input type="text" id="minMoney" class="range">到 
+						&nbsp;&nbsp;&nbsp;&nbsp;
+						金额范围：
+						<input type="text" id="minMoney" class="range"> ~
 						<input type="text" id="maxMoney" class="range" > 
-						<input type="button" onclick="tm_searchProfit(this,true)" value="搜 索">
+						<input type="button" class="search" onclick="tm_searchProfit(this,true)" value="搜 索">
 					</div>
 				</div>
 				<!--表格-->
 				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
 				  <thead>
 					  <tr class="ta_tr">
-					    <td width="7%">ID</td>
+					    <td width="7%">序号</td>
 					    <td width="15%">金额（元）</td>
-					    <td width="15%">收入类型</td>
-					    <td width="8%">收入者</td>
+					    <td width="8%">收入类型</td>
+					    <td width="15%">收入者</td>
 					    <td width="21%">收入时间</td>
 					    <td width="19%">收入的描述</td>
 					    <td width="15%">操作</td>
 					  </tr>
 				  </thead>
 				  <tbody id="tbody">
-				 	 <c:forEach items="${profits}" var="profit">
-						  <tr class="tmui-items">
-						    <td>${profit.id }</td>
-						    <td>${profit.money }</td>
-						    <td>${profit.typeId }</td>
-						    <td>${profit.userId }</td>
-						    <td>${yj:formatDate(profit.createTime,"yyyy-MM-dd HH:mm:ss")}</td>
-						    <td>${profit.description }</td>
-						    <td>
-						    	<a href="profit/add/"  data-opid="">编辑</a>
-						    	&nbsp;
-						    	<a href="javascript:void(0)" onclick="tm_delete(this)" data-opid="${profit.id}">删除</a>
-						    </td>
-						  </tr>
-					  </c:forEach>
+				 	<jsp:include page="listTemplate.jsp"></jsp:include>
 				  </tbody>
 				</table>
 				<div class="page" style="margin-top: 5px;float: right;"></div>
@@ -90,7 +78,7 @@
 	  </div>
 	</div>
 	<script type="text/javascript">
-		var totalCount = "${result}";
+		var totalCount = $("#totalNum").text();
 		$(function(){
 			var height = $(window).height();
 			$("#sidebar").height(height-55);
@@ -115,10 +103,10 @@
 				next_text : "尾页",
 				showGo:true,//控制是否显示go 页 ,默认是true
 				showSelect:true,//控制是否现在下拉框 默认是true
-				callback : function(pageNo, psize) {//会回传两个参数一个当前页，显示的页数
+				callback : function(pageNum, pageSize) {//会回传两个参数一个当前页，显示的页数
 					//执行一个ajax分页就大功告成了....
 					//执行模板数据回调的方法
-					tm_loadTemplate(pageNo, psize);
+					tm_loadTemplate(pageNum, pageSize); 
 				}
 			});
 		}
@@ -140,7 +128,7 @@
 		}
 		
 		//加载数据模板
-		function tm_loadTemplate(pno,psize,callback){
+		function tm_loadTemplate(pageNum,pageSize,callback){
 			var typeId = $("#typeId").val();
 			var maxMoney = $("#maxMoney").val();
 			var minMoney = $("#minMoney").val();
@@ -148,8 +136,9 @@
 			$.ajax({
 				type:"post",
 				url:basePath+"/profit/listTemplate",
-				data:{"pageNo":pno*psize,"pageSize":psize,"typeId":typeId,"maxMoney":maxMoney,"minMoney":minMoney},
+				data:{"startIndex":pageNum*psize,"pageSize":psize,"typeId":typeId,"maxMoney":maxMoney,"minMoney":minMoney},
 				success:function(data){
+					alert(data);
 					$("#tbody").html(data);
 					keyHighlighter(typeName);
 					if(callback){
@@ -168,7 +157,7 @@
 					var opid = $(obj).data("opid");
 					$.ajax({
 						type:"post",
-						url:basePath+"ajax/delProfit/"+opid,
+						url:basePath+"ajax/profit/delProfit/"+opid,
 						success:function(data){
 							if(data.result=="success"){
 								$(obj).parents(".tmui-items").fadeOut("slow",function(){

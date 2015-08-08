@@ -1,10 +1,13 @@
 package com.ace.action;
 
+import java.util.HashMap;
 import java.util.List;
+
+import org.apache.struts2.ServletActionContext;
 
 import com.ace.dao.ProfitDao;
 import com.ace.entity.Profit;
-import com.opensymphony.xwork2.Action;
+import com.ace.entity.User;
 
 /**
  * 
@@ -16,19 +19,88 @@ import com.opensymphony.xwork2.Action;
  * @since JDK1.7
  */
 public class ProfitAction extends BaseAction{
+	//收入列表--查询
 	private List<Profit> profits;
+	//收入id--删除
 	private Integer id;
+	//结果
 	private String result;
+	//收入类型
+	private List<HashMap<String, Object>> maps;
+	//单条收入--增加
+	private Profit profit;
+	//session userId
+	User user=(User)ServletActionContext.getRequest().getSession().getAttribute("userSession");
+	Integer userId=user.getId();
+	//list起始下标
+	private Integer startIndex;
+	//list页数
+	private Integer pageSize;
 	/**
 	 * 
-	 * @description 查询所有收入
+	 * @description 进入收入列表
 	 * @方法名 findProfits
 	 * @return String
 	 * @exception
 	 */
-	public String findProfits(){
-		profits=ProfitDao.findProfits();
-		return Action.SUCCESS;
+	public String list(){
+		maps=ProfitDao.FindProfitType();
+		profits=ProfitDao.findProfits(userId, null, null, null, 0, 10);
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * @description 增加收入页面
+	 * @方法名 add
+	 * @return String
+	 * @exception
+	 */
+	public String add(){
+		maps=ProfitDao.FindProfitType();
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * @description 保存收入信息
+	 * @方法名 save
+	 * @return String
+	 * @exception
+	 */
+	public String save(){
+		profit.setStatus(1);//已发布
+		profit.setIsDelete(0);//未删除
+		profit.setUserId(userId);
+		boolean flag=ProfitDao.saveProfit(profit);
+		if(flag){
+			result=SUCCESS;
+		}else{
+			result=FAIL;
+		}
+		return AJAX_SUCCESS;
+	}
+	/**
+	 * 
+	 * @description 编辑收入页面
+	 * @方法名 edit
+	 * @return String
+	 * @exception
+	 */
+	public String edit(){
+		return SUCCESS;
+	}
+	/**
+	 * 
+	 * @description 搜索
+	 * @方法名 search
+	 * @return String
+	 * @exception
+	 */
+	public String search(){
+		return SUCCESS;
+	}
+	public String listTemplate(){
+		profits=ProfitDao.findProfits(userId, null, null, null, startIndex, pageSize);
+		return SUCCESS;
 	}
 	/**
 	 * 
@@ -66,4 +138,28 @@ public class ProfitAction extends BaseAction{
 	/*public void setResult(String result) {
 		this.result = result;
 	}*/
+	public List<HashMap<String, Object>> getMaps() {
+		return maps;
+	}
+	/*public void setMaps(List<HashMap<String, Object>> maps) {
+		this.maps = maps;
+	}*/
+	public Profit getProfit() {
+		return profit;
+	}
+	public void setProfit(Profit profit) {
+		this.profit = profit;
+	}
+	/*public Integer getPageSize() {
+		return pageSize;
+	}*/
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+	/*public Integer getStartIndex() {
+		return startIndex;
+	}*/
+	public void setStartIndex(Integer startIndex) {
+		this.startIndex = startIndex;
+	}
 }

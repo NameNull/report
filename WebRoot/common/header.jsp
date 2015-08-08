@@ -11,6 +11,7 @@
 	    </ul>
 	</div> -->
 	<span class="btn_codeShare">
+	${sessionScope.userSession.username }
     <a href="http://www.yjava.cn" target="_blank"  class="btn radius btn-success" >返回首页</a>
-    <a href="http://www.yjava.cn" target="_blank" class="btn radius btn-success">退出登录</a></span>
+    <a href="login/exit" class="btn radius btn-success">退出登录</a></span>
 </div>

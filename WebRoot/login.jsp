@@ -4,65 +4,48 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>登陆页面</title>
-<meta name="Keywords" content="潭州学院" />
-<meta name="author" />
-<meta name="Description" content="潭州学院" />
+<link rel="shortcut icon" href="favicon.ico"  type="image/x-icon" />
+<title>登陆页面-财务管理系统</title>
 <style type="text/css">
 	*{padding:0px;margin:0px}
-	body { font-family:"微软雅黑"; font-size:14px; margin:0;}
+	body { font-family:"微软雅黑"; font-size:14px; margin:0;min-width:550px;}
 	#container {margin:0 auto; width:100%;}
 	#header { height:35%; margin-bottom:0px;position:relative;background:#141414}
 	#mainContent { height:65%; background:#1C3024}
-	.logo{position:absolute;bottom:20px;left:43.8%}
-	.inputs{height:26px;width:180px;border-radius:2px;border:none;box-shadow:1px 1px 3px #fff}
+	.logo{position:absolute;bottom:20px;left:30%;width:40%;text-align:center;color:#fff;font-size:36px;}
+	.inputs{height:26px;width:180px;border-radius:2px;border:none;padding-left:4px;outline:0;}
 	.box{position:relative;color:#fff;}
-	.submit{background:#D8C4C4;padding:6px 15px;border:none;color:#fff;cursor:pointer}
+	.submit{background:#fff;padding:6px 15px;border:none;color:#1C3024;cursor:pointer;font-weight:700;}
+	.submit:hover{background:#EEB}
 	.btn{padding-left:412px;padding-top:12px;}
 </style>
 </head>
 <body style="overflow:hidden;" >
 <div id="container">
   <div id="header">
-	<div class="logo"><img src="http://www.tanzhouedu.cn/images/logo.png"></div>
+	<div class="logo">财务管理系统</div>
   </div>
   <div id="mainContent" style="text-align:center;">
 	<div class="box">
 		<div style="height:24px;"><span id="message"></span></div>
-		<form action="login/logined" method="post">
-			账号：${fieldErrors}
-			${actionMessages}
-			<input type="text" class="inputs" id="account" name="account" autofocus="autofocus" placeholder="请输入账号" maxLength="20">&nbsp;&nbsp;&nbsp;&nbsp;
-			密码：<input type="password" class="inputs" id="password" name="password" placeholder="请输入密码" maxLength="20">
-			<p class="btn"><input type="submit" id="loginbtn" class="submit" value="登陆"><p>
-		</form>
+		账号：<input type="text" class="inputs" id="account" name="account" autofocus="autofocus" placeholder="账号" maxLength="20">&nbsp;&nbsp;&nbsp;&nbsp;
+		密码：<input type="password" class="inputs" id="password" name="password" placeholder="密码" maxLength="20">
+			<p class="btn"><input type="submit" id="loginbtn" class="submit" onclick="tm_login(this)" value="登陆"><p>
 	</div>
   </div>
 </div>
-<script type="text/javascript" src="${basePath}/js/jquery-1.11.1.min.js"></script>
-<script type="text/javascript" src="${basePath}/js/util.js"></script>
+<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+<script type="text/javascript" src="js/util.js"></script>
 <script type="text/javascript">
+	var basePath="${basePath}";
 	$(function(){
 		$("#container").height($(window).height());
-		//敲入键盘的enter建进行提交登陆
 		$(document).keydown(function(e){
 			if(e.keyCode == 13){
-				//触发登陆按钮的事件
 				$("#loginbtn").trigger("click");
 			}
 		});
-		
-// 		var arr = ["1.jpg","2.jpg","3.jpg","4.jpg"];
-// 		var index = 0;
-// 		setInterval(function(){
-// 			if(index == arr.length)index = 0;
-// 			$("body").css("background","url(images/"+arr[index]+")");
-// 			index++;
-// 		},5000);
 	});
-	
-	//老师一切为了什么：防止用户重复提交
-	//已定义减少和服务器端的交互---静态化
 	function tm_login(obj){
 		var account = $("#account").val();
 		var password = $("#password").val();
@@ -71,43 +54,34 @@
 			tm_showmessage("请输入账号");
 			return;
 		}
-		
 		if(isEmpty(password)){
 			$("#password").focus();
 			tm_showmessage("请输入密码");
 			return;
 		}
-		
 		$(obj).parent().css("paddingLeft",387);
 		$(obj).attr("value","登陆中...").removeAttr("onclick");
 		$.ajax({
 			type:"post",
-			url:"service/userdao.jsp",
-			error:function(){$(obj).attr("value","登陆").attr("onclick","tm_login(this)");},
+			url:basePath+"ajax/loginValidate",
+			error:function(){$(obj).attr("value","登陆").attr("onclick","tm_login(this)");alert("数据请求超时");},
 			data:{"account":account,"password":password},
 			success:function(data){
-				var jdata = data.trim();
-				if(jdata==="success"){
-					window.location.href = "index.jsp";
-				}else if(jdata=="empty"){
-					tm_showmessage("请输入账号和密码!");
+				if(data.result==="success"){
+					window.location.href = "profit/list";
 				}else{
 					$("#account").select();
 					$("#password").val("");
 					$(obj).attr("value","登陆").attr("onclick","tm_login(this)");
-					tm_showmessage("您输入账号和密码错误");
+					tm_showmessage("您输入账号或密码错误");
 				}
 			}
 		});
 	}
-	
 	//显示错误信息
 	function tm_showmessage(message){
 		$("#message").show().html(message).stop(true,true).fadeOut(3000);
 	}
-	
-	
-	
 </script>
 </body>
 </html>

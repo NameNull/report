@@ -2,16 +2,41 @@
 <!DOCTYPE struts PUBLIC
     "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
     "http://struts.apache.org/dtds/struts-2.3.dtd">
-
 <struts>
+	
+	<!-- 普通action -->
 	<package namespace="/" name="front" extends="struts-default">
-		<action name="profit" method="findProfits" class="com.ace.action.ProfitAction">
-			<result>/pages/profit/list.jsp</result>
+		<!-- <interceptors>
+			<interceptor name="loginInterceptor" class="com.ace.core.LoginInterceptor"></interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors> -->
+		<!-- 全局 -->
+		<global-results>
+			<result name="login">/login.jsp</result>
+			<result name="loginAction" type="redirect">login</result>
+		</global-results>
+		<!-- 收入 -->
+		<action name="profit/*" method="{1}" class="com.ace.action.ProfitAction">
+			<result>/pages/profit/{1}.jsp</result>
+			<!-- <interceptor-ref name="loginStack"></interceptor-ref> -->
+		</action>
+		<!-- 登录 -->
+		<action name="login/*" method="{1}" class="com.ace.action.UserAction">
 		</action>
 	</package>
+	
+	<!-- ajax -->
 	<package namespace="/ajax" name="ajax" extends="json-default">
-		<action name="*/*" method="{1}" class="com.ace.action.ProfitAction">
+		<action name="profit/*/*" method="{1}" class="com.ace.action.ProfitAction">
 			<param name="id">{2}</param>
+			<result type="json" name="ajaxSuccess">
+				<param name="excludeNullProperties">true</param>
+			</result>
+		</action>
+		<action name="loginValidate" method="loginValidate" class="com.ace.action.UserAction">
 			<result type="json" name="ajaxSuccess">
 				<param name="excludeNullProperties">true</param>
 			</result>
