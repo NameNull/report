@@ -6,5 +6,4 @@
 <script src="js/util.js"></script>
 <script src="js/tmdrag.js"></script>
 <script src="js/tmDialog.js"></script>
-<script src="js/util.js"></script>
 <script>var basePath="${basePath}";</script>

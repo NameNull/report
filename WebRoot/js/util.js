@@ -334,7 +334,7 @@ function jsonToString(obj) {
 		}
 	case 'number':
 		return obj;
-	case false:
+	case 'false':
 		return obj;
 	}
 }

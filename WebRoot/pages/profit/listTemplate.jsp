@@ -1,8 +1,7 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@include file="../../common/taglib.jsp" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <c:choose>
- 	<c:when test="${fn:length(profits)==0 }">
+ 	<c:when test="${count==0 }">
 	<tr class="tmui-items">
 		<td colspan="7"><h1>暂无数据</h1></td>
 	</tr>

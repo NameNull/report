@@ -36,6 +36,15 @@ public class ProfitAction extends BaseAction{
 	private Integer startIndex;
 	//list页数
 	private Integer pageSize;
+	//收入条数
+	private Integer count;
+	//收入类型
+	private Integer typeId;
+	//最小金额
+	private Integer minMoney;
+	//最大金额
+	private Integer maxMoney;
+	
 	/**
 	 * 
 	 * @description 进入收入列表
@@ -44,6 +53,7 @@ public class ProfitAction extends BaseAction{
 	 * @exception
 	 */
 	public String list(){
+		count=ProfitDao.countProfits(userId, null, null, null);
 		maps=ProfitDao.FindProfitType();
 		profits=ProfitDao.findProfits(userId, null, null, null, 0, 10);
 		return SUCCESS;
@@ -99,6 +109,7 @@ public class ProfitAction extends BaseAction{
 		return SUCCESS;
 	}
 	public String listTemplate(){
+		count=ProfitDao.countProfits(userId, typeId, minMoney, maxMoney);
 		profits=ProfitDao.findProfits(userId, null, null, null, startIndex, pageSize);
 		return SUCCESS;
 	}
@@ -161,5 +172,29 @@ public class ProfitAction extends BaseAction{
 	}*/
 	public void setStartIndex(Integer startIndex) {
 		this.startIndex = startIndex;
+	}
+	public Integer getCount() {
+		return count;
+	}
+	/*public void setCount(Integer count) {
+		this.count = count;
+	}*/
+	/*public Integer getTypeId() {
+		return typeId;
+	}*/
+	public void setTypeId(Integer typeId) {
+		this.typeId = typeId;
+	}
+	/*public Integer getMinMoney() {
+		return minMoney;
+	}*/
+	public void setMinMoney(Integer minMoney) {
+		this.minMoney = minMoney;
+	}
+	/*public Integer getMaxMoney() {
+		return maxMoney;
+	}*/
+	public void setMaxMoney(Integer maxMoney) {
+		this.maxMoney = maxMoney;
 	}
 }

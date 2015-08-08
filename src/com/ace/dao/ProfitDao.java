@@ -22,6 +22,47 @@ import com.ace.entity.Profit;
 public class ProfitDao {
 	/**
 	 * 
+	 * @description 计数收入行数
+	 * @方法名 countProfits
+	 * @param userId
+	 * @param typeId
+	 * @param minMoney
+	 * @param maxMoney
+	 * @return int
+	 * @exception
+	 */
+	public static int countProfits(Integer userId,Integer typeId,Integer minMoney,Integer maxMoney){
+		String sql="SELECT COUNT(1) FROM TM_PROFIT P,TM_PROFIT_CATEGORY C,TM_USER U WHERE P.TYPE_ID=C.ID "+
+				" AND P.USER_ID=U.ID AND P.USER_ID=? AND P.IS_DELETE=0 AND P.STATUS=1 ";
+		if(typeId!=null){
+			sql+=" AND P.TYPE_ID="+typeId;
+		}
+		if(minMoney!=null&&maxMoney!=null){
+			sql+=" AND P.MONEY BETWEEN "+minMoney+" AND "+maxMoney+" ";
+		}
+		Connection connection=null;
+		PreparedStatement preparedStatement=null;
+		ResultSet rs=null;
+		int count=0;
+		try {
+			connection=ConnectionUtil.getConnection();
+			preparedStatement=connection.prepareStatement(sql);
+			preparedStatement.setInt(1, userId);
+			rs=preparedStatement.executeQuery();
+			if(rs.next()){
+				count=rs.getInt(1);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			ConnectionUtil.closeRs(rs);
+			ConnectionUtil.closeConnection(preparedStatement);
+			ConnectionUtil.closeConnection(connection);
+		}
+		return count;
+	}
+	/**
+	 * 
 	 * @description 
 	 * @方法名 findProfits 查找收入
 	 * @param userId

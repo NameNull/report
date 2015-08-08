@@ -1,7 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <!-- 通用标签的导入 -->
 <%@include file="/common/taglib.jsp" %>
-<%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -32,7 +31,7 @@
 	    <div id="content">
 	    	<div class="cheader">
 	    		<p class="ta_title fl">收入明细列表</p>
-	    		<p class="totalNum">共<span id="totalNum">${fn:length(profits)}</span>条结果</p>
+	    		<p class="totalNum">共<span id="totalNum">${count}</span>条结果</p>
 	    	</div>
 	    	<!--表格-->
 			<div id="contentbox">
@@ -136,9 +135,8 @@
 			$.ajax({
 				type:"post",
 				url:basePath+"/profit/listTemplate",
-				data:{"startIndex":pageNum*psize,"pageSize":psize,"typeId":typeId,"maxMoney":maxMoney,"minMoney":minMoney},
+				data:{"startIndex":pageNum*pageSize,"pageSize":pageSize,"typeId":typeId,"maxMoney":maxMoney,"minMoney":minMoney},
 				success:function(data){
-					alert(data);
 					$("#tbody").html(data);
 					keyHighlighter(typeName);
 					if(callback){
