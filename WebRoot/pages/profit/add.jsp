@@ -149,7 +149,7 @@
 						window.location.href = basePath+"profit/list";
 					}else{
 						$("#money").val("").focus();
-						alert("添加失败");
+						alert("操作失败");
 					}
 				}
 			});

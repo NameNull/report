@@ -93,6 +93,16 @@ public class ProfitAction extends BaseAction{
 	}
 	/**
 	 * 
+	 * @description 收入明细详情
+	 * @方法名 detail
+	 * @return String
+	 * @exception
+	 */
+	public String detail(){
+		return SUCCESS;
+	}
+	/**
+	 * 
 	 * @description 编辑收入页面
 	 * @方法名 edit
 	 * @return String
@@ -109,14 +119,11 @@ public class ProfitAction extends BaseAction{
 	}
 	/**
 	 * 
-	 * @description 搜索
-	 * @方法名 search
+	 * @description 模板技术
+	 * @方法名 listTemplate
 	 * @return String
 	 * @exception
 	 */
-	public String search(){
-		return SUCCESS;
-	}
 	public String listTemplate(){
 		count=ProfitDao.countProfits(userId, typeId, minMoney, maxMoney);
 		profits=ProfitDao.findProfits(userId, typeId, minMoney, maxMoney, startIndex, pageSize);
