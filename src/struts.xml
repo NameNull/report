@@ -27,6 +27,14 @@
 		<!-- 登录 -->
 		<action name="login/*" method="{1}" class="com.ace.action.UserAction">
 		</action>
+		<!-- 测试表单重复提交 -->
+		<action name="repeat" method="search" class="com.ace.action.TestAction">
+			<result>/success.jsp</result>
+			<result name="fail">/error.jsp</result>
+			<!-- 插入数据和更新数据的时候用这个,或者重定向到其他页面 <result type="redirect">/success.jsp</result>.如果用ajax则直接限制点击事件 表单重复提交引入下面两行,并在相应的表单中写入<s:token/> -->
+			<interceptor-ref name="tokenSession"></interceptor-ref>
+			<interceptor-ref name="defaultStack"></interceptor-ref>
+		</action>
 	</package>
 	
 	<!-- ajax -->

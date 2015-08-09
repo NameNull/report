@@ -1,21 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<!-- 通用标签的导入 -->
 <%@include file="../../common/taglib.jsp" %>
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>收入页面-潭州学院财务管理系统</title>
-	<meta http-equiv="pragma" content="no-cache">
-	<meta http-equiv="cache-control" content="no-cache">
-	<meta http-equiv="expires" content="0">    
-	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
-	<meta http-equiv="description" content="This is my page">
-	<!-- 通用样式和JS的导入 -->
+    <title>收入页面-财务管理系统</title>
 	<%@include file="../../common/common.jsp" %>
-	<script type="text/javascript" src="${basePath}/js/jquery.pagination.js"></script>
-	<script type="text/javascript" src="${basePath}/js/chart/fusioncharts.js"></script>
-	<script type="text/javascript" src="${basePath}/js/chart/fusioncharts.theme.fint.js"></script>
-	<script type="text/javascript" src="${basePath}/js/chart/tzchart.js"></script>
+	<script src="js/jquery.pagination.js"></script>
+	<script src="js/chart/fusioncharts.js"></script>
+	<script src="js/chart/fusioncharts.theme.fint.js"></script>
+	<script src="js/chart/tzchart.js"></script>
 	<style type="text/css">
 		#content{position: relative;}
 		.cheader{position: fixed;width: 100%;top:52px;z-index: 5;}
@@ -26,21 +19,13 @@
 	</style>
   </head>
   <body>
-    
-  	//查询昨天,当天，本周，本月,本年,收入类型金额的平均排序
-  	//:查询昨天,当天，本周，本月,本年收入类型金额最大的排行
-  	//查询昨天,当天，本周，本月,本年金额的最高和最低检索出收入金额在这个范围的收入类型的排行.
-  	
-  	//掌握数据库日期搜索，聚合函数，分组
-    //掌握项目开发的流程和项细节点的把握
-  	
   	<!-- 容器 -->
   	<div id="container">
   	  <!-- 头部 -->
 	  <%@include file="../../common/header.jsp" %>
 	  <!-- 中间内容 -->
 	  <div id="mainContent">
-	    <!-- 右侧导航栏 -->	
+	    <!-- 左侧导航栏 -->	
 	    <div id="sidebar">
 	    	<%@include file="../../common/slider.jsp" %>
 	    </div>
@@ -52,11 +37,11 @@
 				<!--标题-->
 				<!--日期-->
 				<div class="ta_selete tmui-buttons" style="display: none;">
-					<div class="fl"><a class="fl" href="${basePath}/profit/add">添加收入明细</a> </div>
+					<div class="fl"><a class="fl" href="profit/add">添加收入明细</a> </div>
 					<div class="fl">
 						&nbsp;&nbsp;类型:
 						<select id="typeId" onchange="tm_searchProfit(this,false)">
-							<option value="">--请选择类型--</option>
+							<option value="">--所有类型--</option>
 			          		<c:forEach var="pt" items="${maps}">
 			          			<option value="${pt.id}">${pt.name}</option>
 			          		</c:forEach>
@@ -128,14 +113,14 @@
 					for(var key in jsonData){
 						var jdata = jsonData[key];
 						//把你表中的分类查询出来，缓存起来返回一个hashMap id=key namev=alue
-						var ldata = tm_getType(key);
-						var label = ldata.name,color=ldata.color;
+						/* var ldata = tm_getType(key); */
+						/* var label = ldata.name,color=ldata.color; */
 						var html = "<dataset seriesname='"+label+"' color='"+color+"'>";
 						var length = jdata.length;
 						for(var i=0;i<length;i++){
-							for(var k in jdata[i]){
+							/* for(var k in jdata[i]){
 								html+="<set label='"+jdata[i][k]+"' value='"+jdata[i][k]+"' />";
-							}
+							} */
 						}
 						html+="</dataset>";
 						arr.push(html);
@@ -206,11 +191,11 @@
 				type:"post",
 				url:basePath+"/json/profit/detailYear",
 				success:function(data){
-					var jsonData = eval("("+data.result+")");
+					/* var jsonData = eval("("+data.result+")"); */
 					var html = "";
-					for(var key in jsonData){
+					/* for(var key in jsonData){
 						html+="<set label='"+key+"'  value='"+jsonData[key]+"'/>";
-					}
+					} */
 					$.tzChart({target:"chart2",type:"column2d",height:"360",width:"67%",data:"<chart caption='2014年度收入明细' yaxisname='收入金额(月/元)' numberprefix='￥'  bgcolor='e5e5e5' showborder='0' theme='fint'>"+html+"</chart>"});
 				}
 			});
@@ -263,7 +248,6 @@
 			});
 		};
 		
-	</script>
 	</script>
   </body>
 </html>

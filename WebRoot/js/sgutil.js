@@ -334,13 +334,13 @@ function tm_numberKey($this, e) {
 //trim() , ltrim() , rtrim()
 String.prototype.trim = function(){ 
 	return this.replace(/(^\s*)|(\s*$)/g, ""); 
-} 
+} ;
 String.prototype.ltrim = function(){ 
 	return this.replace(/(^\s*)/g, ""); 
-} 
+} ;
 String.prototype.rtrim = function() { 
 	return this.replace(/(\s*$)/g, ""); 
-}
+};
 
 /**
  * 对Date的扩展，将 Date 转化为指定格式的String 月(M)、日(d)、12小时(h)、24小时(H)、分(m)、秒(s)、周(E)、季度(q)
@@ -579,7 +579,7 @@ function jsonToString(obj) {
 		}
 	case 'number':
 		return obj;
-	case false:
+	case 'false':
 		return obj;
 	}
 }
@@ -1864,7 +1864,7 @@ function getBrowser() {
 	} else if (navigator.userAgent.indexOf("Firefox") != -1) {
 		oType = "FIREFOX";
 	}
-	return oType
+	return oType;
 };
 
 
@@ -1915,7 +1915,7 @@ function tm_getOs() {
     if(sUA.indexOf( 'x11' )!=-1) {return 'Unix';}  
     if(sUA.indexOf('mac') != -1) {return "Mac"; }  
     if(sUA.indexOf("sunos")!=-1) {return 'Sun OS';}  
-    if((sUA.indexOf("os/2")!=-1) || (navigator.appVersion.indexOf("OS/2")!=-1) || (sUA.indexOf("ibm-webexplorer")!=-1)) {return "OS 2"}  
+    if((sUA.indexOf("os/2")!=-1) || (navigator.appVersion.indexOf("OS/2")!=-1) || (sUA.indexOf("ibm-webexplorer")!=-1)) {return "OS 2";}  
     if(navigator.platform == 'PalmOS' ) {return 'Palm OS'; }  
     if((navigator.platform == 'WinCE' ) || ( navigator.platform == 'Windows CE' ) || ( navigator.platform == 'Pocket PC' ) ) {return 'Windows CE';}  
     if(sUA.indexOf( 'webtv')!=-1) {return 'WebTV Platform'; }  
@@ -2160,7 +2160,7 @@ $.fn.selectRange = function(start, end) {
 
 function stripscript(s) {
 	var pattern = new RegExp(
-			"[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]")
+			"[`~!@#$^&*()=|{}':;',\\[\\].<>/?~！@#￥……&*（）&mdash;—|{}【】‘；：”“'。，、？]");
 	var rs = "";
 	for (var i = 0; i < s.length; i++) {
 		rs = rs + s.substr(i, 1).replace(pattern, '');

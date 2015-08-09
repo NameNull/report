@@ -104,7 +104,7 @@ public class ProfitAction extends BaseAction{
 	/**
 	 * 
 	 * @description 编辑收入页面
-	 * @方法名 edit
+	 * @方法名 update
 	 * @return String
 	 * @exception
 	 */

@@ -11,7 +11,7 @@
 		width:640,
 		height:400,
 		position:false
-	}
+	};
 	
 	$.fn.tzImgbox.methods={ 
 		init : function(imgObj,opts){
@@ -47,7 +47,7 @@
 				var box = $this.resizeImg(imgSrc,opts.width,opts.height);
 				$("#tmimgbox").remove();
 				var $imgBox = $("<div id='tmimgbox' class='magictime foolishIn'><a href='javascript:void(0);' class='icon close'></a><div id='imgbox' class='imgbox'></div></div>");
-				$("body").append($imgBox)//.append("<div class='tmui-overlay'></div>");
+				$("body").append($imgBox);//.append("<div class='tmui-overlay'></div>");
 				$imgBox.find("#imgbox").html("<img src='"+imgSrc+"'  width='"+box.width+"' height='"+box.height+"'>");
 				if(opts.position){
 					$this._position($imgBox);

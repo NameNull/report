@@ -1,7 +1,10 @@
 package com.ace.action;
 
+import org.apache.struts2.ServletActionContext;
+
 import com.ace.dao.ProfitDao;
 import com.ace.entity.Profit;
+import com.ace.entity.User;
 /**
  * 
  * @title TestAction 测试表单重复提交
@@ -12,19 +15,23 @@ import com.ace.entity.Profit;
  * @since JDK1.7
  */
 public class TestAction extends BaseAction{
-	private Integer id;
 	private Profit profit;
+	User user=(User)ServletActionContext.getRequest().getSession().getAttribute("userSession");
+	Integer userId=user.getId();
 	public String search(){
-		profit=ProfitDao.getProfit(id);
-		if(profit==null){
-			return FAIL;
-		}else{
+		profit.setStatus(1);//已发布
+		profit.setIsDelete(0);//未删除
+		profit.setUserId(userId);
+		boolean flag=ProfitDao.saveProfit(profit);
+		if(flag){
 			return SUCCESS;
+		}else{
+			return FAIL;
 		}
 	}
 	//setter
-	public void setId(Integer id) {
-		this.id = id;
+	public void setProfit(Profit profit) {
+		this.profit = profit;
 	}
 	public Profit getProfit() {
 		return profit;

@@ -1,6 +1,6 @@
 (function($){
 	$.fn.tmDrag = function(options){
-		var opts = $.extend({},$.fn.tmDrag.defaults,options)
+		var opts = $.extend({},$.fn.tmDrag.defaults,options);
 		this.each(function(){
 			opts.target = $(this);
 			opts = $.extend(opts,$.fn.tmDrag.parseOptions(opts.target));
@@ -48,9 +48,9 @@
 		var $target = $(target);
 		return {
 			handle : $target.attr("handle")
-		}
+		};
 	};
 	$.fn.tmDrag.defaults = {
 		handle : ""
-	}
+	};
 })(jQuery);
