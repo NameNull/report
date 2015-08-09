@@ -53,9 +53,9 @@ public class ProfitAction extends BaseAction{
 	 * @exception
 	 */
 	public String list(){
-		count=ProfitDao.countProfits(userId, null, null, null);
+		count=ProfitDao.countProfits(userId, typeId, minMoney, maxMoney);
 		maps=ProfitDao.FindProfitType();
-		profits=ProfitDao.findProfits(userId, null, null, null, 0, 10);
+		profits=ProfitDao.findProfits(userId, typeId, minMoney, maxMoney, 0, 10);
 		return SUCCESS;
 	}
 	/**
@@ -66,6 +66,9 @@ public class ProfitAction extends BaseAction{
 	 * @exception
 	 */
 	public String add(){
+		if(id!=null){
+			profit=ProfitDao.getProfit(id);
+		}
 		maps=ProfitDao.FindProfitType();
 		return SUCCESS;
 	}
@@ -95,8 +98,14 @@ public class ProfitAction extends BaseAction{
 	 * @return String
 	 * @exception
 	 */
-	public String edit(){
-		return SUCCESS;
+	public String update(){
+		boolean flag=ProfitDao.updateProfit(profit);
+		if(flag){
+			result=SUCCESS;
+		}else{
+			result=FAIL;
+		}
+		return AJAX_SUCCESS;
 	}
 	/**
 	 * 
@@ -110,7 +119,7 @@ public class ProfitAction extends BaseAction{
 	}
 	public String listTemplate(){
 		count=ProfitDao.countProfits(userId, typeId, minMoney, maxMoney);
-		profits=ProfitDao.findProfits(userId, null, null, null, startIndex, pageSize);
+		profits=ProfitDao.findProfits(userId, typeId, minMoney, maxMoney, startIndex, pageSize);
 		return SUCCESS;
 	}
 	/**

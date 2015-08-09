@@ -41,8 +41,8 @@
 					<div class="fl"><a class="fl" href="profit/add">添加收入明细</a> </div>
 					<div class="fr">
 						&nbsp;&nbsp;类型：
-						<select id="typeId" onchange="tm_searchProfit(this,false)">
-							<option value="">--请选择类型--</option>
+						<select id="typeId" onchange="tm_searchProfit()">
+							<option value="">--所有类型--</option>
 			          		<c:forEach items="${maps}" var="map">
 			          			<option value="${map.id}">${map.name}</option>
 			          		</c:forEach>
@@ -51,20 +51,20 @@
 						金额范围：
 						<input type="text" id="minMoney" class="range"> ~
 						<input type="text" id="maxMoney" class="range" > 
-						<input type="button" class="search" onclick="tm_searchProfit(this,true)" value="搜 索">
+						<input type="button" class="search" onclick="tm_searchProfit()" value="搜 索">
 					</div>
 				</div>
 				<!--表格-->
-				<table width="100%" border="0" cellspacing="0" cellpadding="0" class="table">
+				<table style="width:100%"   class="table">
 				  <thead>
 					  <tr class="ta_tr">
-					    <td width="7%">序号</td>
-					    <td width="15%">金额（元）</td>
-					    <td width="8%">收入类型</td>
-					    <td width="15%">收入者</td>
-					    <td width="21%">收入时间</td>
-					    <td width="19%">收入的描述</td>
-					    <td width="15%">操作</td>
+					    <td style="width:3%" >序号</td>
+					    <td style="width:12%">金额（元）</td>
+					    <td style="width:8%" >收入类型</td>
+					    <td style="width:21%">更新时间</td>
+					    <td style="width:21%">收入时间</td>
+					    <td style="width:19%">收入的描述</td>
+					    <td style="width:15%">操作</td>
 					  </tr>
 				  </thead>
 				  <tbody id="tbody">
@@ -110,17 +110,8 @@
 			});
 		}
 		
-		//下来类型进行所属
-		function tm_searchProfit(obj,flag){
-			if(flag){
-				var maxMoney = $("#maxMoney").val();
-				var minMoney = $("#minMoney").val();
-				if(isNotEmpty(maxMoney) && isNotEmpty(minMoney) && maxMoney < minMoney){
-					alert("最小金额不能大于最大金额");
-					$("#maxMoney").select();
-					return ;
-				}
-			}
+		//搜索
+		function tm_searchProfit(){
 			tm_loadTemplate(0,10,function(itemCount){
 				tm_initPage(itemCount);//搜索以后重新初始化分页
 			});
@@ -132,15 +123,29 @@
 			var maxMoney = $("#maxMoney").val();
 			var minMoney = $("#minMoney").val();
 			var typeName = $("#typeId").find("option:selected").text();
+			if(isNotEmpty(maxMoney) && isNotEmpty(minMoney) && maxMoney*1 < minMoney*1){
+				alert("最小金额不能大于最大金额");
+				$("#maxMoney").select();
+				return ;
+			}
+			if(isNaN(maxMoney)||isNaN(minMoney)){
+				alert("金额必须是数字");
+				return;
+			}
+			if(maxMoney*1>2147483647||minMoney*1<-2147483648){
+				alert("金额为整型");
+				return;
+			}
 			$.ajax({
 				type:"post",
-				url:basePath+"/profit/listTemplate",
+				url:basePath+"profit/listTemplate",
 				data:{"startIndex":pageNum*pageSize,"pageSize":pageSize,"typeId":typeId,"maxMoney":maxMoney,"minMoney":minMoney},
 				success:function(data){
 					$("#tbody").html(data);
 					keyHighlighter(typeName);
 					if(callback){
-						var itemCount = $("#itemCount").val();
+						var itemCount =$("#itemCount").val();
+						$("#totalNum").text(itemCount);
 						callback(itemCount);
 					}
 				}

@@ -59,7 +59,7 @@ public class DateUtils {
 	 */
 	public static String getTimeFormat(Date startTime){
 		try{
-			if(startTime==null){startTime=new Date();}
+			if(startTime==null){return null;}
 			long startTimeMills = startTime.getTime();
 			long endTimeMills = System.currentTimeMillis();
 			long diff = (endTimeMills - startTimeMills)/1000;//秒

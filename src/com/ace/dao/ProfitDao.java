@@ -3,7 +3,9 @@ package com.ace.dao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -20,6 +22,46 @@ import com.ace.entity.Profit;
  * @since JDK1.7
  */
 public class ProfitDao {
+	/**
+	 * 
+	 * @description 根绝id获取该条收入
+	 * @方法名 getProfit
+	 * @param Id
+	 * @return Profit
+	 * @exception
+	 */
+	public static Profit getProfit(Integer Id){
+		String sql="SELECT * FROM TM_PROFIT WHERE ID=?";
+		Connection connection=null;
+		PreparedStatement preparedStatement=null;
+		ResultSet rs=null;
+		Profit profit=null;
+		try {
+			connection=ConnectionUtil.getConnection();
+			preparedStatement=connection.prepareStatement(sql);
+			preparedStatement.setInt(1,Id);
+			rs=preparedStatement.executeQuery();
+			if(rs.next()){
+				profit=new Profit();
+				profit.setCreateTime(rs.getTimestamp("create_time"));
+				profit.setDescription(rs.getString("description"));
+				profit.setId(rs.getInt("id"));
+				profit.setIsDelete(rs.getInt("is_delete"));
+				profit.setMoney(rs.getFloat("money"));
+				profit.setStatus(rs.getInt("status"));
+				profit.setTypeId(rs.getInt("type_id"));
+				profit.setUpdateTime(rs.getTimestamp("update_time"));
+				profit.setUserId(rs.getInt("user_id"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally{
+			ConnectionUtil.closeRs(rs);
+			ConnectionUtil.closeConnection(preparedStatement);
+			ConnectionUtil.closeConnection(connection);
+		}
+		return profit;
+	}
 	/**
 	 * 
 	 * @description 计数收入行数
@@ -60,6 +102,10 @@ public class ProfitDao {
 			ConnectionUtil.closeConnection(connection);
 		}
 		return count;
+	}
+	public static void main(String[] args) {
+		System.out.println(Integer.MAX_VALUE);
+		System.out.print(Integer.MIN_VALUE);
 	}
 	/**
 	 * 
@@ -218,5 +264,36 @@ public class ProfitDao {
 			ConnectionUtil.closeConnection(connection);
 		}
 		return maps;
+	}
+	/**
+	 * 
+	 * @description 更新收入
+	 * @方法名 updateProfit
+	 * @param profit
+	 * @return boolean
+	 * @exception
+	 */
+	public static boolean updateProfit(Profit profit){
+		String sql="UPDATE TM_PROFIT SET MONEY=?, TYPE_ID=?, DESCRIPTION=? ,UPDATE_TIME=? WHERE ID=?";
+		Connection connection=null;
+		PreparedStatement preparedStatement=null;
+		int count=0;
+		try {
+			connection=ConnectionUtil.getConnection();
+			preparedStatement=connection.prepareStatement(sql);
+			preparedStatement.setFloat(1,profit.getMoney());
+			preparedStatement.setInt(2,profit.getTypeId());
+			preparedStatement.setString(3,profit.getDescription());
+			preparedStatement.setString(4,new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+			preparedStatement.setInt(5,profit.getId());
+			count=preparedStatement.executeUpdate();
+			return count>0?true:false;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}finally{
+			ConnectionUtil.closeConnection(preparedStatement);
+			ConnectionUtil.closeConnection(connection);
+		}
 	}
 }

@@ -19,7 +19,8 @@
 			<result name="loginAction" type="redirect">login</result>
 		</global-results>
 		<!-- 收入 -->
-		<action name="profit/*" method="{1}" class="com.ace.action.ProfitAction">
+		<action name="profit/*/*" method="{1}" class="com.ace.action.ProfitAction">
+			<param name="id">{2}</param>
 			<result>/pages/profit/{1}.jsp</result>
 			<!-- <interceptor-ref name="loginStack"></interceptor-ref> -->
 		</action>

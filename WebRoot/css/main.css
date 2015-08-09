@@ -24,7 +24,7 @@ body,html{overflow:hidden;}
 .table .ta_tr td{border-top:1px solid #d9d9d9;font-size:12px;height:35px;border-bottom:1px solid #d9d9d9;border-right:1px solid #d9d9d9;text-align:center;line-height:35px}
 .table .tmui-items:hover{background:#e5e5e5}
 .ta_tr{background:#e7e7ee;font-weight:bold}
-input.search{padding:0 5px;}
+input.search{padding:0 5px;cursor:pointer;}
 .mar_lef10{margin-left:10px;}
 .dis_none{display:none;}
 #sidebar li{float:left;padding-left:20px;width:166px;height:36px;border-bottom:1px solid #222;color:#fff;text-align:left;line-height:36px;position: relative;}

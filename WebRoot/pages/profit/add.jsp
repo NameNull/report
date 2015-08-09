@@ -30,18 +30,18 @@
 	    	</div>
 	    	<!--表格-->
 			<div id="contentbox">
-				<input type="hidden" id="profitId" name="profit.id" value="">
+				<input type="hidden" id="profitId" name="profit.id" value="${profit.id}">
 				<form id="profitform" method="post">
 				<div class="xt_right">
 			     <div class="xtrt_nr">
-			          <table width="100%">
+			          <table style="width:100%">
 			          <tr>
-				          <td width="115">收入来源：</td>
+				          <td style="width:115px;">收入来源：</td>
 				          <td>  
-				          	<select name="profit.typeId" id="typeId" class="text_box" style="width: 472px;">
+				          	<select data-old="${profit.typeId }" name="profit.typeId" id="typeId" class="text_box" style="width: 472px;">
 				          		<option value="">--请选择收入类型--</option>
 				          		<c:forEach var="map" items="${maps}">
-				          			<option value="${map.id}">${map.name}</option>
+				          			<option ${map.id==profit.typeId? 'selected':'' } value="${map.id}">${map.name}</option>
 				          		</c:forEach>
 				          	</select>
 				          	<i class="red">*</i>
@@ -49,18 +49,18 @@
 				          </td>
 			          </tr>
 			          <tr>
-			          <td width="115">收入金额：</td>
+			          <td style="width:115px;">收入金额：</td>
 			          <td>
-			          	<input type="text" name="profit.money" value="" class="text_box" autofocus="autofocus" id="money" maxlength="10" placeholder="请输入收入的金额"> <i class="red">*</i>
+			          	<input data-old="${profit.money }" type="text" name="profit.money" value="${profit.money }" class="text_box" autofocus="autofocus" id="money" maxlength="10" placeholder="收入的金额"> <i class="red">*</i>
 			          	<span class="errormessage red"></span>
 			          </td>
 			          </tr>
 			          <tr>
-			          <td width="115" style="vertical-align: top;">收入描述：</td>
-			          <td><textarea class="text_box" name="profit.description" id="description" maxlength="600" style="height: 200px;" placeholder="请输入收入的描述"></textarea></td>
+			          <td style="width:115px;" style="vertical-align: top;">收入描述：</td>
+			          <td><textarea data-old="${profit.description }" class="text_box" name="profit.description" id="description" maxlength="600" style="height: 200px;" placeholder="收入的描述">${profit.description }</textarea></td>
 			          </tr>
 			          <tr>
-			          <td width="115"></td>
+			          <td style="width:115px;"></td>
 			          <td>
 			          	<input type="button" onclick="tm_save(this)" class="text_btn" value="保存收入">
 			          	<input type="button" onclick="window.location.href='profit/list'" class="text_btn" value="返回">
@@ -124,13 +124,20 @@
 				"profit.money":money,
 				"profit.description":description
 			};
-			$(obj).removeAttr("onclick").val("数据保存中....");
 			var id = $("#profitId").val();
 			var method = "save";
 			if(isNotEmpty(id)){
+				var oldtypeId=$("#typeId").data("old");
+				var oldmoney=$("#money").data("old");
+				var olddesc=$("#description").data("old");
 				params["profit.id"] = id;
 				method = "update";
+				if(typeId==oldtypeId && money==oldmoney && description==olddesc){
+					alert("没有修改！");
+					return;
+				}
 			}
+			$(obj).removeAttr("onclick").val("数据保存中....");
 			$.ajax({
 				type:"post",
 				url:basePath+"ajax/profit/"+method,

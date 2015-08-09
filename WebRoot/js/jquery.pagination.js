@@ -16,7 +16,7 @@
 	$.PaginationCalculator = function(maxentries, opts) {
 		this.maxentries = maxentries;
 		this.opts = opts;
-	}
+	};
 	
 	$.extend($.PaginationCalculator.prototype, {
 		/**
@@ -49,7 +49,7 @@
 	});
 	
 	// Initialize jQuery object container for pagination renderers
-	$.PaginationRenderers = {}
+	$.PaginationRenderers = {};
 	
 	/**
 	 * @class Default renderer for rendering pagination links
@@ -58,7 +58,7 @@
 		this.maxentries = maxentries;
 		this.opts = opts;
 		this.pc = new $.PaginationCalculator(maxentries, opts);
-	}
+	};
 	
 	$.extend($.PaginationRenderers.defaultRenderer.prototype, {
 		/**
@@ -92,7 +92,7 @@
 			}
 		},
 		getLinks:function(current_page, eventHandler,psize) {
-			var $page = this;
+			/*var $page = this;*/
 			var begin, end,
 				interval = this.pc.getInterval(current_page),
 				np = this.pc.numPages(),
@@ -171,7 +171,7 @@
 		 * @param {int} page_id The new page number
 		 */
 		function paginationClickHandler(evt){
-			var links, 
+			var /*links,*/ 
 				new_current_page = $(evt.target).data('page_id'),
 				continuePropagation = selectPage(new_current_page);
 			if (!continuePropagation) {
@@ -307,6 +307,6 @@
 		        return tm_numberKey($(this), e);
 		    });
 		}
-	} // End of $.fn.pagination block
+	} ;// End of $.fn.pagination block
 	
 })(jQuery);

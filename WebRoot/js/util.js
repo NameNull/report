@@ -343,6 +343,6 @@ function jsonToString(obj) {
 //关键字高亮
 function keyHighlighter(keyword){
 	$("#tbody").find(".key").each(function(){
-		$(this).html($(this).text().replace(keyword,"<label style='color:red'>"+keyword+"</label>"));
+		$(this).html($(this).text().replace(keyword,"<label style='color:green'>"+keyword+"</label>"));
 	});
 };
