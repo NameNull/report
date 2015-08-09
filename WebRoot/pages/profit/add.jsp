@@ -138,7 +138,7 @@
 				}
 			}
 			$(obj).removeAttr("onclick").val("数据保存中....");
-			$.ajax({
+			/* $.ajax({
 				type:"post",
 				url:basePath+"ajax/profit/"+method,
 				data:params,
@@ -152,7 +152,22 @@
 						alert("操作失败");
 					}
 				}
-			});
+			}); */
+			var options={
+				url:basePath+"ajax/profit/"+method,
+				data:params,
+				error:function(){$(obj).attr("onclick","tm_save(this)").val("保存收入");alert("服务器异常！");},
+				callback:function(data){
+					$(obj).attr("onclick","tm_save(this)").val("保存收入");
+					if(data.result=="success"){
+						window.location.href = basePath+"profit/list";
+					}else{
+						$("#money").val("").focus();
+						alert("操作失败");
+					}
+				}
+			};
+			$.yj_utils.yj_ajax(options);
 		}
 	</script>
   </body>

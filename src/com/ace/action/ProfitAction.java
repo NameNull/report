@@ -23,15 +23,10 @@ public class ProfitAction extends BaseAction{
 	private List<Profit> profits;
 	//收入id--删除
 	private Integer id;
-	//结果
-	private String result;
 	//收入类型
 	private List<HashMap<String, Object>> maps;
 	//单条收入--增加
 	private Profit profit;
-	//session userId
-	User user=(User)ServletActionContext.getRequest().getSession().getAttribute("userSession");
-	Integer userId=user.getId();
 	//list起始下标
 	private Integer startIndex;
 	//list页数
@@ -53,6 +48,9 @@ public class ProfitAction extends BaseAction{
 	 * @exception
 	 */
 	public String list(){
+		//session userId
+		User user=(User)ServletActionContext.getRequest().getSession().getAttribute("userSession");
+		Integer userId=user.getId();
 		count=ProfitDao.countProfits(userId, typeId, minMoney, maxMoney);
 		maps=ProfitDao.FindProfitType();
 		profits=ProfitDao.findProfits(userId, typeId, minMoney, maxMoney, 0, 10);
@@ -80,6 +78,9 @@ public class ProfitAction extends BaseAction{
 	 * @exception
 	 */
 	public String save(){
+		//session userId
+		User user=(User)ServletActionContext.getRequest().getSession().getAttribute("userSession");
+		Integer userId=user.getId();
 		profit.setStatus(1);//已发布
 		profit.setIsDelete(0);//未删除
 		profit.setUserId(userId);
@@ -125,6 +126,9 @@ public class ProfitAction extends BaseAction{
 	 * @exception
 	 */
 	public String listTemplate(){
+		//session userId
+		User user=(User)ServletActionContext.getRequest().getSession().getAttribute("userSession");
+		Integer userId=user.getId();
 		count=ProfitDao.countProfits(userId, typeId, minMoney, maxMoney);
 		profits=ProfitDao.findProfits(userId, typeId, minMoney, maxMoney, startIndex, pageSize);
 		return SUCCESS;

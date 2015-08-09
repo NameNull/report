@@ -1,8 +1,12 @@
 package com.ace.core;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.struts2.ServletActionContext;
 
+import com.ace.action.BaseAction;
 import com.ace.entity.User;
+import com.ace.util.StringUtils;
 import com.opensymphony.xwork2.ActionInvocation;
 import com.opensymphony.xwork2.interceptor.AbstractInterceptor;
 /**
@@ -20,7 +24,14 @@ public class LoginInterceptor extends AbstractInterceptor{
 
 	public String intercept(ActionInvocation invacation) throws Exception {
 		User user=(User) ServletActionContext.getRequest().getSession().getAttribute("userSession");
+		HttpServletRequest request=ServletActionContext.getRequest();
+		String requestType=request.getHeader("X-Requested-With");
 		if(user==null){
+			if(StringUtils.isNotEmpty(requestType)&&requestType.equals("XMLHttpRequest")){
+				BaseAction action=(BaseAction)invacation.getAction();
+				action.setResult("loginout");
+				return "ajaxSuccess";
+			}
 			return "loginAction";
 		}
 		return invacation.invoke();

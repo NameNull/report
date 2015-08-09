@@ -3,26 +3,27 @@
     "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
     "http://struts.apache.org/dtds/struts-2.3.dtd">
 <struts>
-	
-	<!-- 普通action -->
-	<package namespace="/" name="front" extends="struts-default">
-		<!-- <interceptors>
+	<package name="default" extends="json-default">
+		<interceptors>
 			<interceptor name="loginInterceptor" class="com.ace.core.LoginInterceptor"></interceptor>
 			<interceptor-stack name="loginStack">
 				<interceptor-ref name="loginInterceptor"></interceptor-ref>
 				<interceptor-ref name="defaultStack"></interceptor-ref>
 			</interceptor-stack>
-		</interceptors> -->
+		</interceptors>
 		<!-- 全局 -->
 		<global-results>
 			<result name="login">/login.jsp</result>
 			<result name="loginAction" type="redirect">login</result>
 		</global-results>
+	</package>
+	<!-- 普通action -->
+	<package namespace="/" name="front" extends="default">
 		<!-- 收入 -->
 		<action name="profit/*/*" method="{1}" class="com.ace.action.ProfitAction">
 			<param name="id">{2}</param>
 			<result>/pages/profit/{1}.jsp</result>
-			<!-- <interceptor-ref name="loginStack"></interceptor-ref> -->
+			<interceptor-ref name="loginStack"></interceptor-ref>
 		</action>
 		<!-- 登录 -->
 		<action name="login/*" method="{1}" class="com.ace.action.UserAction">
@@ -38,16 +39,19 @@
 	</package>
 	
 	<!-- ajax -->
-	<package namespace="/ajax" name="ajax" extends="json-default">
+	<package namespace="/ajax" name="ajax" extends="default">
 		<action name="profit/*/*" method="{1}" class="com.ace.action.ProfitAction">
 			<param name="id">{2}</param>
 			<result type="json" name="ajaxSuccess">
+				<param name="ignoreHierarchy">false</param>
 				<param name="excludeNullProperties">true</param>
 			</result>
+			<interceptor-ref name="loginStack"></interceptor-ref>
 		</action>
 		<action name="loginValidate" method="loginValidate" class="com.ace.action.UserAction">
 			<result type="json" name="ajaxSuccess">
 				<param name="excludeNullProperties">true</param>
+				<param name="ignoreHierarchy">false</param>
 			</result>
 		</action>
 	</package>

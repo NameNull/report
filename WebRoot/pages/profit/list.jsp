@@ -103,7 +103,6 @@
 				showGo:true,//控制是否显示go 页 ,默认是true
 				showSelect:true,//控制是否现在下拉框 默认是true
 				callback : function(pageNum, pageSize) {//会回传两个参数一个当前页，显示的页数
-					//执行一个ajax分页就大功告成了....
 					//执行模板数据回调的方法
 					tm_loadTemplate(pageNum, pageSize); 
 				}
@@ -136,7 +135,7 @@
 				alert("金额为整型");
 				return;
 			}
-			$.ajax({
+			/* $.ajax({
 				type:"post",
 				url:basePath+"profit/listTemplate",
 				data:{"startIndex":pageNum*pageSize,"pageSize":pageSize,"typeId":typeId,"maxMoney":maxMoney,"minMoney":minMoney},
@@ -149,7 +148,21 @@
 						callback(itemCount);
 					}
 				}
-			});
+			}); */
+			var options={
+				url:basePath+"profit/listTemplate",
+				data:{"startIndex":pageNum*pageSize,"pageSize":pageSize,"typeId":typeId,"maxMoney":maxMoney,"minMoney":minMoney},
+				callback:function(data){
+					$("#tbody").html(data);
+					keyHighlighter(typeName);
+					if(callback){
+						var itemCount =$("#itemCount").val();
+						$("#totalNum").text(itemCount);
+						callback(itemCount);
+					}
+				}
+			};
+			$.yj_utils.yj_ajax(options);
 		};
 		
 		//删除收入记录
@@ -158,7 +171,7 @@
 			tm_dialog({content:"您确定删除吗?",callback:function(ok){
 				if(ok){
 					var opid = $(obj).data("opid");
-					$.ajax({
+					/* $.ajax({
 						type:"post",
 						url:basePath+"ajax/profit/delProfit/"+opid,
 						success:function(data){
@@ -170,7 +183,20 @@
 								alert("删除失败!");
 							}
 						}
-					});
+					}); */
+					var options={
+						url:basePath+"ajax/profit/delProfit/"+opid,
+						callback:function(data){
+							if(data.result=="success"){
+								$(obj).parents(".tmui-items").fadeOut("slow",function(){
+									$(this).remove();
+								});
+							}else{
+								alert("删除失败!");
+							}
+						}
+					};
+					$.yj_utils.yj_ajax(options);
 				}
 			}});
 		}

@@ -7,3 +7,4 @@
 <script src="js/tmdrag.js"></script>
 <script src="js/tmDialog.js"></script>
 <script>var basePath="${basePath}";</script>
+<script src="js/tmajax.js"></script>
