@@ -45,7 +45,18 @@ public class ProfitAction extends BaseAction{
 	private String year;
 	/**
 	 * 
-	 * @description 获取年收入--图表
+	 * @description 获取每年每月收入总额
+	 * @方法名 yearsProfit
+	 * @return String
+	 * @exception
+	 */
+	public String yearsProfit(){
+		maps=ProfitChartDao.findYearsProfitDetails();
+		return AJAX_SUCCESS;
+	}
+	/**
+	 * 
+	 * @description 获取今年每月每个类型收入--图表
 	 * @方法名 findYearProfit
 	 * @return String
 	 * @exception

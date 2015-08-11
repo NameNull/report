@@ -55,7 +55,7 @@ public class ProfitChartDao {
 	}
 	/**
 	 * 
-	 * @description 获取年收入（每个类型每月总数）
+	 * @description 获取今年收入（每月每个类型总数）
 	 * @方法名 findYearProfit
 	 * @param year
 	 * @return HashMap<String,Object>
@@ -83,6 +83,32 @@ public class ProfitChartDao {
 	}
 	/**
 	 * 
+	 * @description 获取每年收入（每年每月金额总数）
+	 * @方法名 findYearsProfit
+	 * @return HashMap<String,Object>
+	 * @exception
+	 */
+	public static HashMap<String, Object> findYearsProfit(){
+		String sql="SELECT DATE_FORMAT(create_time,'%c'),SUM(money),DATE_FORMAT(create_time,'%Y') FROM tm_profit WHERE is_delete = 0 AND `status`=1 GROUP BY DATE_FORMAT(create_time,'%m'),DATE_FORMAT(create_time,'%Y')";
+		Connection connection=null;
+		PreparedStatement preparedStatement=null;
+		ResultSet rs=null;
+		HashMap<String, Object> map=null;
+		try {
+			connection=ConnectionUtil.getConnection();
+			preparedStatement=connection.prepareStatement(sql);
+			rs=preparedStatement.executeQuery();
+			map=new HashMap<String, Object>();
+			while(rs.next()){
+				map.put(rs.getString("DATE_FORMAT(create_time,'%c')")+"_"+rs.getString("DATE_FORMAT(create_time,'%Y')"), rs.getString("SUM(money)"));
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return map;
+	}
+	/**
+	 * 今年收入处理方法
 	 * @description 获取{{type:3,month_money:{{month:1,money:"500"},{month:1,money:"500"},...}},{type:3,month_money:{{month:1,money:"500"},{month:1,money:"500"},...}},...}
 	 * @方法名 findYearProfitDetails
 	 * @param year
@@ -117,8 +143,42 @@ public class ProfitChartDao {
 		}
 		return hashMaps;
 	}
+	/**
+	 * 每年收入处理方法 和今年收入处理方法相似 
+	 * @description 
+	 * @方法名 findYearsProfitDetails
+	 * @return List<HashMap<String,Object>>
+	 * @exception
+	 */
+	public static List<HashMap<String,Object>> findYearsProfitDetails(){
+		HashMap<String, Object> treeMap=findYearsProfit();
+		List<HashMap<String, Object>> hashMaps = new ArrayList<HashMap<String, Object>>();
+		HashMap<String, Object> hashMap=null;
+		String[] arr=new String[50];
+ 		for (Map.Entry<String, Object> entry: treeMap.entrySet()) {
+ 			String[] keys = entry.getKey().split("_");
+			String year = keys[1];
+			int yearNum=Integer.parseInt(year)-2010;
+ 			if((arr[yearNum])==null){
+	 			hashMap=new HashMap<String, Object>();
+ 				arr[yearNum]=year;
+				hashMap.put("type",year);
+				List<HashMap<String,Object>> mmaps =  new ArrayList<HashMap<String, Object>>();
+				HashMap<String, Object> mmap=null;
+				for (int i = 1; i <=12; i++) {
+					mmap=new HashMap<String, Object>();
+					Object value = treeMap.get(i+"_"+year);
+					mmap.put("month", i);
+					mmap.put("money",value==null?0:value);
+					mmaps.add(mmap);
+				}
+				hashMap.put("month_money",mmaps);
+				hashMaps.add(hashMap);
+ 			}
+		}
+		return hashMaps;
+	}
 	public static void main(String[] args) {
-		HashMap<String, Object> map=findYearProfit("2015");
-		System.out.println(map);
+		
 	}
 }

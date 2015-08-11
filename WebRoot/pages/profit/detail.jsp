@@ -41,6 +41,7 @@
 						<select id="typeId" onchange="tm_change_time(this)">
 							<option value="today">--Today--</option>
 							<option value="year">--This Year--</option>
+							<option value="years">--Every Year--</option>
 						</select>
 					</div>
 					<div class="fl mar_lef10 charttype" style="line-height:35px;">
@@ -49,16 +50,6 @@
 							<option value="column2d">column2d</option>
 							<option value="line">line</option>
 							<option value="bar2d">bar2d</option>
-							<script type="text/html" id="today_opts">
-								<option value="column2d">column2d</option>
-								<option value="line">line</option>
-								<option value="bar2d">bar2d</option>
-							</script>
-							<script type="text/html" id="year_opts">
-								<option value="msline">msline</option>
-								<option value="mscolumn2d">mscolumn2d</option>
-								<option value="msarea">msarea</option>
-							</script>
 						</select>
 						<select class="dis_none" id="type_opts">
 							<c:forEach items="${maps }" var="map">
@@ -74,6 +65,17 @@
 	    </div><!-- 内容区域结束 -->
 	  </div>
 	</div>
+
+	<script type="text/html" id="today_opts">
+		<option value="column2d">column2d</option>
+		<option value="line">line</option>
+		<option value="bar2d">bar2d</option>
+	</script>
+	<script type="text/html" id="year_opts">
+		<option value="msline">msline</option>
+		<option value="mscolumn2d">mscolumn2d</option>
+		<option value="msarea">msarea</option>
+	</script>
 	<script type="text/javascript">
 		//获取类型
 		var arr=[];
@@ -101,7 +103,10 @@
 					tm_loadingTodayData(value);
 					break;
 				case "year":
-					tm_loadingYearData(value,year);
+					tm_loadingYearData(value,"ajax/profit/yearProfit","今年每个类型的月收入情况",year);
+					break;
+				case "years":
+					tm_loadingYearData(value,"ajax/profit/yearsProfit","每年每月的总收入情况");
 					break;
 				default:
 					tm_loadingTodayData(value);
@@ -118,7 +123,11 @@
 					$("#sel").html($("#today_opts").html());
 					break;
 				case "year":
-					tm_loadingYearData("msline",year);
+					tm_loadingYearData("msline","ajax/profit/yearProfit","今年每个类型的月收入情况",year);
+					$("#sel").html($("#year_opts").html());
+					break;
+				case "years":
+					tm_loadingYearData("msline","ajax/profit/yearsProfit","每年每月的总收入情况");
 					$("#sel").html($("#year_opts").html());
 					break;
 				default:
@@ -159,9 +168,9 @@
 			$.yj_utils.yj_ajax(options);
 		}
 		/*统计当年出每种收入类型的 每个月消费明细对比*/
-		function tm_loadingYearData(type,year){
+		function tm_loadingYearData(type,url,title,year){
 			var options={
-				url:basePath+"ajax/profit/yearProfit",
+				url:basePath+url,
 				data:{year:year},
 				callback:function(data){
 					if(isEmpty(data.maps)){
@@ -170,8 +179,14 @@
 						var jsonData = data.maps;
 						var ilength = jsonData.length;
 						var ihtml = ""; 
+						var seriesname="";
 						for(var i=0;i<ilength;i++){
-							var jhtml="<dataset seriesname='"+getTypeName(jsonData[i].type)+"'>";
+							if(isEmpty(year)){
+								seriesname=jsonData[i].type+"年";
+							}else{
+								seriesname=getTypeName(jsonData[i].type);
+							}
+							var jhtml="<dataset seriesname='"+seriesname+"'>";
 							var month_money=jsonData[i].month_money;
 							var jlength=month_money.length;
 							for(var j=0;j<jlength;j++){
@@ -185,7 +200,7 @@
 							type:type,
 							height:"450",
 							width:"100%",
-							data:"<chart caption='月收入情况' subcaption='（基于收入类型）'  yaxisname='收入(元)'  numberprefix='￥' plotgradientcolor='' bgcolor='FFFFFF' showalternatehgridcolor='0' divlinecolor='CCCCCC' showvalues='0' showcanvasborder='1' canvasborderalpha='0' canvasbordercolor='CCCCCC' canvasborderthickness='1' captionpadding='30' linethickness='3' yaxisvaluespadding='15' legendshadow='0' legendborderalpha='0' palettecolors='#f8bd19,#008ee4,#33bdda,#e44a00,#6baa01,#583e78' showborder='0'>"+
+							data:"<chart caption='"+title+"'  yaxisname='收入(元)'  numberprefix='￥' plotgradientcolor='' bgcolor='FFFFFF' showalternatehgridcolor='0' divlinecolor='CCCCCC' showvalues='0' showcanvasborder='1' canvasborderalpha='0' canvasbordercolor='CCCCCC' canvasborderthickness='1' captionpadding='30' linethickness='3' yaxisvaluespadding='15' legendshadow='0' legendborderalpha='0' palettecolors='#f8bd19,#008ee4,#33bdda,#e44a00,#6baa01,#583e78' showborder='0'>"+
 							"<categories>"+
 							"<category label='一月' />"+
 							"<category label='二月' />"+
@@ -214,21 +229,8 @@
 			};
 			$.yj_utils.yj_ajax(options);
 		}
-		//实现本周，本年，本月,三天前，昨天的收入情况
-		/* function tm_loadingYear(){
-			$.ajax({
-				type:"post",
-				url:basePath+"/json/profit/detailYear",
-				success:function(data){
-					var jsonData = eval("("+data.result+")");
-					var html = "";
-					for(var key in jsonData){
-						html+="<set label='"+key+"'  value='"+jsonData[key]+"'/>";
-					}
-					$.tzChart({target:"chart2",type:"column2d",height:"360",width:"67%",data:"<chart caption='2014年度收入明细' yaxisname='收入金额(月/元)' numberprefix='￥'  bgcolor='e5e5e5' showborder='0' theme='fint'>"+html+"</chart>"});
-				}
-			});
-		} */
+		/*每年收入*/
+		
 	</script>
   </body>
 </html>
