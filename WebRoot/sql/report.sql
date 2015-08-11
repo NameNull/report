@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : localhost
-Source Server Version : 50528
+Source Server         : localhost_3306
+Source Server Version : 50623
 Source Host           : localhost:3306
 Source Database       : report
 
 Target Server Type    : MYSQL
-Target Server Version : 50528
+Target Server Version : 50623
 File Encoding         : 65001
 
-Date: 2014-12-29 00:13:08
+Date: 2015-08-12 02:44:44
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,7 +21,7 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `tm_pay`;
 CREATE TABLE `tm_pay` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `money` float(10,3) NOT NULL COMMENT '消费的金额',
+  `money` float(13,3) NOT NULL COMMENT '消费的金额',
   `description` varchar(1000) DEFAULT NULL COMMENT '消费的描述',
   `user_id` int(50) DEFAULT NULL COMMENT '消费者',
   `type_id` int(11) DEFAULT NULL COMMENT '消费类型',
@@ -65,7 +65,7 @@ CREATE TABLE `tm_pay_category` (
 DROP TABLE IF EXISTS `tm_profit`;
 CREATE TABLE `tm_profit` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `money` float(10,3) DEFAULT NULL COMMENT '收入的金额',
+  `money` float(13,3) DEFAULT NULL COMMENT '收入的金额',
   `description` varchar(500) DEFAULT NULL,
   `user_id` int(11) DEFAULT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -79,103 +79,98 @@ CREATE TABLE `tm_profit` (
   KEY `money_index` (`money`),
   CONSTRAINT `tm_profit_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tm_user` (`id`),
   CONSTRAINT `tm_profit_ibfk_2` FOREIGN KEY (`type_id`) REFERENCES `tm_profit_category` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=131 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=229 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of tm_profit
 -- ----------------------------
-INSERT INTO `tm_profit` VALUES ('29', '1000.000', '', '1', '2014-11-28 01:37:47', '2014-12-28 01:37:58', '0', '1', '6');
-INSERT INTO `tm_profit` VALUES ('30', '200.000', '', '1', '2014-10-28 01:37:47', '2014-12-28 01:37:58', '0', '1', '6');
-INSERT INTO `tm_profit` VALUES ('31', '89.000', '', '1', '2014-09-28 01:37:47', '2014-12-28 01:37:58', '0', '1', '6');
-INSERT INTO `tm_profit` VALUES ('42', '25.000', '2222', '1', '2014-12-28 01:42:11', '2014-12-28 01:37:58', '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('43', '56.000', '4444432423423423423423', '1', '2014-12-28 01:57:11', '2014-12-28 01:37:58', '0', '1', '5');
-INSERT INTO `tm_profit` VALUES ('44', '56.000', '4444432423423423423423', '1', '2014-04-28 01:57:11', '2014-12-28 01:37:58', '1', '1', '5');
-INSERT INTO `tm_profit` VALUES ('45', '500.000', '到发士大夫', '1', '2014-03-28 22:43:03', null, '1', '1', '5');
-INSERT INTO `tm_profit` VALUES ('46', '25000.000', '第三方士大夫', '1', '2014-02-28 22:43:12', null, '1', '1', '1');
-INSERT INTO `tm_profit` VALUES ('47', '33333.000', '33333', '1', '2014-01-28 22:45:14', null, '1', '1', '3');
-INSERT INTO `tm_profit` VALUES ('48', '5600.000', '随碟附送大', '1', '2014-12-28 23:21:59', null, '1', '1', '6');
-INSERT INTO `tm_profit` VALUES ('49', '1000.000', '3545645646464', '1', '2014-12-28 23:40:00', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('50', '1000.000', '3545645646464', '1', '2014-12-28 23:40:07', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('51', '1000.000', '3545645646464', '1', '2014-12-28 23:40:11', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('52', '1000.000', '3545645646464', '1', '2014-12-28 23:40:11', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('53', '1000.000', '3545645646464', '1', '2014-12-28 23:40:11', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('54', '1000.000', '3545645646464', '1', '2014-12-28 23:40:11', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('55', '1000.000', '3545645646464', '1', '2014-12-28 23:40:11', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('56', '1000.000', '3545645646464', '1', '2014-12-28 23:40:12', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('57', '1000.000', '3545645646464', '1', '2014-12-28 23:40:12', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('58', '1000.000', '3545645646464', '1', '2014-12-28 23:40:12', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('59', '1000.000', '3545645646464', '1', '2014-12-28 23:40:12', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('60', '1000.000', '3545645646464', '1', '2014-12-28 23:40:12', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('61', '1000.000', '3545645646464', '1', '2014-12-28 23:40:12', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('62', '1000.000', '3545645646464', '1', '2014-12-28 23:40:13', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('63', '1000.000', '3545645646464', '1', '2014-12-28 23:40:13', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('64', '1000.000', '3545645646464', '1', '2014-12-28 23:40:13', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('65', '1000.000', '3545645646464', '1', '2014-12-28 23:40:13', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('66', '1000.000', '3545645646464', '1', '2014-12-28 23:40:13', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('67', '1000.000', '3545645646464', '1', '2014-12-28 23:40:14', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('68', '1000.000', '3545645646464', '1', '2014-12-28 23:40:14', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('69', '1000.000', '3545645646464', '1', '2014-12-28 23:40:14', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('70', '1000.000', '3545645646464', '1', '2014-12-28 23:40:14', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('71', '1000.000', '3545645646464', '1', '2014-12-28 23:40:23', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('72', '1000.000', '3545645646464', '1', '2014-12-28 23:40:26', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('73', '1000.000', '3545645646464', '1', '2014-12-28 23:40:27', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('74', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('75', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('76', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('77', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('78', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('79', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('80', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('81', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('82', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('83', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('84', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('85', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('86', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('87', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('88', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('89', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('90', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('91', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('92', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('93', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('94', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('95', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('96', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('97', '1000.000', '3545645646464', '1', '2014-12-28 23:40:28', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('98', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('99', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('100', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('101', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('102', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('103', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('104', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('105', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('106', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('107', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('108', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('109', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('110', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('111', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('112', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('113', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('114', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('115', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('116', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('117', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('118', '1000.000', '3545645646464', '1', '2014-12-28 23:40:29', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('119', '1000.000', '3545645646464', '1', '2014-12-28 23:40:30', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('120', '1000.000', '3545645646464', '1', '2014-12-28 23:40:30', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('121', '1000.000', '3545645646464', '1', '2014-12-28 23:40:30', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('122', '1000.000', '3545645646464', '1', '2014-12-28 23:40:30', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('123', '1000.000', '3545645646464', '1', '2014-12-28 23:40:30', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('124', '1000.000', '3545645646464', '1', '2014-12-28 23:40:30', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('125', '1000.000', '3545645646464', '1', '2014-12-28 23:40:30', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('126', '1000.000', '3545645646464', '1', '2014-12-28 23:40:30', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('127', '1000.000', '3545645646464', '1', '2014-12-28 23:40:30', null, '0', '1', '2');
-INSERT INTO `tm_profit` VALUES ('128', '234.000', '23423423', '1', '2014-12-28 23:43:22', null, '0', '1', '6');
-INSERT INTO `tm_profit` VALUES ('129', '111111.000', '2222222222222222222222222222', '1', '2014-12-28 23:44:29', null, '0', '1', '6');
-INSERT INTO `tm_profit` VALUES ('130', '111111.000', '2222222222222222222222222222', '1', '2014-12-28 23:44:53', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('133', '2312.000', '暑期生活费', '1', '2014-09-09 03:13:37', '2015-08-09 01:33:24', '0', '1', '5');
+INSERT INTO `tm_profit` VALUES ('134', '100.910', '股票收入', '1', '2014-09-09 03:13:37', '2015-08-09 01:33:28', '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('135', '900.000', '新年红包', '1', '2014-08-09 03:13:37', '2015-08-09 01:33:31', '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('136', '1000.000', '项目开发工资', '1', '2014-08-09 03:13:37', '2015-08-09 01:33:33', '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('137', '80.000', '国家基金', '1', '2014-09-09 03:13:37', '2015-08-09 01:33:37', '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('138', '123.000', '炒股收入', '1', '2014-09-09 03:13:37', '2015-08-09 01:33:40', '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('139', '234.000', '卖力', '1', '2014-10-09 03:13:37', '2015-08-09 02:37:55', '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('140', '213.000', '基金回报', '1', '2014-10-09 03:13:37', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('141', '3424.000', '基金回报', '1', '2014-11-09 03:13:37', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('142', '342.000', '基金回报', '1', '2014-11-09 03:13:37', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('143', '343.000', '基金回报', '1', '2014-12-09 03:13:37', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('144', '34.000', '基金回报', '1', '2014-08-09 03:13:37', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('145', '1232.000', '基金回报', '1', '2014-08-09 03:13:37', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('146', '100.000', '基金回报', '1', '2014-08-09 03:13:37', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('147', '123.000', '基金回报', '1', '2014-08-09 03:13:37', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('148', '546.000', '基金回报', '1', '2014-08-09 03:13:37', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('149', '667.000', '基金回报', '1', '2014-08-09 03:13:37', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('150', '456.000', '基金回报', '1', '2014-08-09 03:13:37', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('151', '5656.000', '基金回报', '1', '2014-08-09 03:13:37', '2015-08-09 18:13:40', '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('152', '354.000', '基金回报', '1', '2015-01-09 17:35:37', '2015-08-09 18:13:31', '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('153', '123.000', '基金回报', '1', '2015-01-10 01:32:13', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('154', '1231.000', '基金回报', '1', '2015-01-10 01:32:33', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('155', '1232.000', '基金回报', '1', '2015-02-10 01:33:02', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('156', '122.000', '基金回报', '1', '2015-02-10 01:33:03', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('157', '544.000', '基金回报', '1', '2015-03-10 01:33:04', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('158', '566.000', '基金回报', '1', '2015-04-10 01:33:05', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('159', '45.000', '基金回报', '1', '2015-05-10 01:33:06', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('160', '456.000', '基金回报', '1', '2015-04-10 01:33:07', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('161', '466.000', '基金回报', '1', '2015-04-10 01:33:07', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('162', '56.000', '基金回报', '1', '2015-05-10 01:33:08', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('163', '84.000', '基金回报', '1', '2015-05-10 01:33:08', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('164', '900.000', '基金回报', '1', '2015-05-10 01:33:08', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('165', '450.000', '基金回报', '1', '2015-05-10 01:33:08', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('166', '58.000', '基金回报', '1', '2015-05-10 01:33:08', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('167', '15.000', 'niu', '1', '2015-07-10 01:46:15', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('168', '1512.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('169', '123.000', '23', '1', '2015-07-10 03:15:51', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('170', '123.000', '基金回报', '1', '2015-07-10 03:15:51', '2015-08-10 05:23:36', '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('171', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('172', '258.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('173', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('174', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('175', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('176', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('177', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('178', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('179', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '4');
+INSERT INTO `tm_profit` VALUES ('180', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('181', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('182', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('183', '2.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('184', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('185', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('186', '58.000', '基金回报', '1', '2015-07-10 03:15:51', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('187', '58.000', '基金回报', '1', '2015-08-10 05:40:22', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('188', '58.000', '基金回报', '1', '2015-08-10 05:40:33', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('189', '58.000', '基金回报', '1', '2015-08-10 05:40:42', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('190', '58.000', '基金回报', '1', '2015-08-10 05:41:02', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('191', '58.000', '基金回报', '1', '2015-08-10 05:41:13', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('192', '58.000', '基金回报', '1', '2015-08-10 05:41:40', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('193', '58.000', '基金回报', '1', '2015-08-10 05:42:14', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('194', '58.000', '基金回报', '1', '2015-08-10 05:42:22', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('195', '2.000', '基金回报', '1', '2015-08-10 05:42:29', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('196', '2.000', '基金回报', '1', '2015-08-10 05:42:38', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('197', '2.000', '基金回报', '1', '2015-08-10 05:42:48', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('198', '2.000', '基金回报', '1', '2015-08-10 05:43:04', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('199', '21.000', '基金回报', '1', '2015-08-10 05:43:15', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('200', '21.000', '基金回报', '1', '2015-08-10 05:43:36', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('201', '21.000', '基金回报', '1', '2015-08-10 05:43:46', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('204', '21.000', '基金回报', '1', '2015-08-10 05:44:27', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('205', '31.000', '12313', '1', '2015-08-10 15:49:33', '2015-08-10 15:49:40', '0', '1', '4');
+INSERT INTO `tm_profit` VALUES ('206', '11.000', '基金回报', '1', '2015-08-10 16:49:57', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('207', '22.000', '基金回报', '1', '2015-08-10 16:50:02', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('208', '33.000', '基金回报', '1', '2015-08-10 16:50:09', null, '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('209', '44.000', '基金回报', '1', '2015-08-10 16:50:14', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('210', '55.000', '基金回报', '1', '2015-08-10 16:50:20', null, '0', '1', '4');
+INSERT INTO `tm_profit` VALUES ('211', '61.000', '基金回报', '1', '2015-08-10 16:50:25', null, '0', '1', '5');
+INSERT INTO `tm_profit` VALUES ('212', '21.000', '基金回报', '1', '2015-08-11 15:32:39', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('213', '23.000', '基金回报', '1', '2015-08-11 15:32:44', null, '0', '1', '2');
+INSERT INTO `tm_profit` VALUES ('214', '32.000', '赚钱了', '1', '2015-08-11 15:32:50', '2015-08-12 02:14:15', '0', '1', '1');
+INSERT INTO `tm_profit` VALUES ('215', '100.000', '基金回报', '1', '2015-08-11 16:24:15', null, '0', '1', '3');
+INSERT INTO `tm_profit` VALUES ('216', '123.000', '基金回报', '1', '2015-08-11 16:24:24', null, '0', '1', '4');
+INSERT INTO `tm_profit` VALUES ('217', '132.000', '基金回报', '1', '2015-08-11 16:24:32', null, '0', '1', '5');
+INSERT INTO `tm_profit` VALUES ('218', '123.000', '基金回报', '1', '2015-08-12 00:41:21', null, '1', '1', '6');
+INSERT INTO `tm_profit` VALUES ('219', '123.000', '', '1', '2015-08-12 02:05:26', null, '1', '1', '6');
+INSERT INTO `tm_profit` VALUES ('227', '123.000', '理财', '1', '2015-08-12 02:15:45', null, '0', '1', '6');
+INSERT INTO `tm_profit` VALUES ('228', '400.000', '中奖了', '1', '2015-08-12 02:16:00', null, '0', '1', '4');
 
 -- ----------------------------
 -- Table structure for tm_profit_category
@@ -195,12 +190,12 @@ CREATE TABLE `tm_profit_category` (
 -- ----------------------------
 -- Records of tm_profit_category
 -- ----------------------------
-INSERT INTO `tm_profit_category` VALUES ('1', '工资', '2014-12-25 22:09:52', '发了工资了', '1', '0', '4');
-INSERT INTO `tm_profit_category` VALUES ('2', '红包', '2014-12-25 22:10:01', '过年的红包', '1', '0', '5');
-INSERT INTO `tm_profit_category` VALUES ('3', '基金', '2014-12-25 22:10:10', null, '1', '0', '3');
-INSERT INTO `tm_profit_category` VALUES ('4', '中奖了', '2014-12-25 22:10:16', null, '1', '1', '2');
-INSERT INTO `tm_profit_category` VALUES ('5', '生活费', '2014-12-25 22:10:31', '每个月的生活费', '1', '0', '1');
-INSERT INTO `tm_profit_category` VALUES ('6', '理财', '2014-12-27 23:33:42', null, '1', '0', '6');
+INSERT INTO `tm_profit_category` VALUES ('1', '工资', '2015-08-09 22:09:52', '', '1', '0', '4');
+INSERT INTO `tm_profit_category` VALUES ('2', '红包', '2015-08-09 22:09:52', '', '1', '0', '5');
+INSERT INTO `tm_profit_category` VALUES ('3', '基金', '2015-08-09 22:09:52', null, '1', '0', '3');
+INSERT INTO `tm_profit_category` VALUES ('4', '中奖', '2015-08-09 22:09:52', null, '1', '0', '2');
+INSERT INTO `tm_profit_category` VALUES ('5', '生活费', '2015-08-09 22:09:52', '', '1', '0', '1');
+INSERT INTO `tm_profit_category` VALUES ('6', '理财', '2015-08-09 22:09:52', null, '1', '0', '6');
 
 -- ----------------------------
 -- Table structure for tm_user
@@ -208,9 +203,9 @@ INSERT INTO `tm_profit_category` VALUES ('6', '理财', '2014-12-27 23:33:42', n
 DROP TABLE IF EXISTS `tm_user`;
 CREATE TABLE `tm_user` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `username` varchar(50) NOT NULL,
-  `password` varchar(100) NOT NULL,
-  `account` varchar(50) NOT NULL,
+  `username` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `password` varchar(100) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+  `account` varchar(50) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
   `create_time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
@@ -218,4 +213,4 @@ CREATE TABLE `tm_user` (
 -- ----------------------------
 -- Records of tm_user
 -- ----------------------------
-INSERT INTO `tm_user` VALUES ('1', '柯柯', '123456', 'keke', '2014-12-25 22:11:39');
+INSERT INTO `tm_user` VALUES ('1', '管理员叔叔', 'admin', 'admin', '2015-08-08 22:11:39');
