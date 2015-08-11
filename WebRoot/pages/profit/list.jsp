@@ -135,20 +135,6 @@
 				alert("金额为整型");
 				return;
 			}
-			/* $.ajax({
-				type:"post",
-				url:basePath+"profit/listTemplate",
-				data:{"startIndex":pageNum*pageSize,"pageSize":pageSize,"typeId":typeId,"maxMoney":maxMoney,"minMoney":minMoney},
-				success:function(data){
-					$("#tbody").html(data);
-					keyHighlighter(typeName);
-					if(callback){
-						var itemCount =$("#itemCount").val();
-						$("#totalNum").text(itemCount);
-						callback(itemCount);
-					}
-				}
-			}); */
 			var options={
 				url:basePath+"profit/listTemplate",
 				data:{"startIndex":pageNum*pageSize,"pageSize":pageSize,"typeId":typeId,"maxMoney":maxMoney,"minMoney":minMoney},
@@ -171,19 +157,6 @@
 			tm_dialog({content:"您确定删除吗?",callback:function(ok){
 				if(ok){
 					var opid = $(obj).data("opid");
-					/* $.ajax({
-						type:"post",
-						url:basePath+"ajax/profit/delProfit/"+opid,
-						success:function(data){
-							if(data.result=="success"){
-								$(obj).parents(".tmui-items").fadeOut("slow",function(){
-									$(this).remove();
-								});
-							}else{
-								alert("删除失败!");
-							}
-						}
-					}); */
 					var options={
 						url:basePath+"ajax/profit/delProfit/"+opid,
 						callback:function(data){

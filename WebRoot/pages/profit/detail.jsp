@@ -144,7 +144,11 @@
 				url:basePath+"ajax/profit/todayProfit",
 				callback:function(data){
 					if(isEmpty(data.profits)){
-						alert("数据为空！");
+						tm_dialog({content:"今天并没有收入！",sureText:"添加收入",cancleText:"再看看",callback:function(ok){
+							if(ok){
+								location.href=basePath+"profit/add";
+							}
+						}});
 					}else{
 						var jsonData = data.profits;
 						var length = jsonData.length;
