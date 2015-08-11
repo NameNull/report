@@ -21,7 +21,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
     		clearInterval(timer);
     		timer=setInterval(function(){
         		count--;
-        		if(count<1){location.href=getRootPath()+"/front/index.jsp";}
+        		if(count<1){location.href="<%=basePath%>"+"index.jsp";}
         		if(count==0){count++;}
         		$("#count").text(count);
     		},1000);
