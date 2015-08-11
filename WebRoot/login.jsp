@@ -15,9 +15,9 @@
 	.logo{position:absolute;bottom:20px;left:30%;width:40%;text-align:center;color:#fff;font-size:36px;}
 	.inputs{height:26px;width:180px;border-radius:2px;border:none;padding-left:4px;outline:0;}
 	.box{position:relative;color:#fff;}
-	.submit{background:#fff;padding:6px 15px;border:none;color:#1C3024;cursor:pointer;font-weight:700;}
+	.submit{background:#fff;width:70px;height:30px;line-height:30px;border:none;color:#1C3024;cursor:pointer;font-weight:700;}
 	.submit:hover{background:#EEB}
-	.btn{padding-left:412px;padding-top:12px;}
+	.btn{padding-left:400px;padding-top:12px;}
 </style>
 </head>
 <body style="overflow:hidden;" >
@@ -59,7 +59,6 @@
 			tm_showmessage("请输入密码");
 			return;
 		}
-		$(obj).parent().css("paddingLeft",387);
 		$(obj).attr("value","登陆中...").removeAttr("onclick");
 		$.ajax({
 			type:"post",

@@ -8,7 +8,7 @@
 	<script src="js/jquery.pagination.js"></script>
 	<script src="js/chart/fusioncharts.js"></script>
 	<script src="js/chart/fusioncharts.theme.fint.js"></script>
-	<script src="js/chart/tzchart.js"></script>
+	<script src="js/chart/mychart.js"></script>
 	<style type="text/css">
 		#content{position: relative;}
 		.cheader{position: fixed;width: 100%;top:52px;z-index: 5;}
@@ -31,39 +31,38 @@
 	    </div>
 	    <!-- 内容区域 -->
 	    <div id="content">
-	    	<div class="cheader"><p class="ta_title">收入明细列表</p></div>
 	    	<!--表格-->
 			<div id="contentbox">
 				<!--标题-->
 				<!--日期-->
-				<div class="ta_selete tmui-buttons" style="display: none;">
-					<div class="fl"><a class="fl" href="profit/add">添加收入明细</a> </div>
-					<div class="fl">
-						&nbsp;&nbsp;类型:
-						<select id="typeId" onchange="tm_searchProfit(this,false)">
-							<option value="">--所有类型--</option>
-			          		<c:forEach var="pt" items="${maps}">
-			          			<option value="${pt.id}">${pt.name}</option>
-			          		</c:forEach>
+				<div class="ta_selete tmui-buttons">
+					<div class="fr">
+						&nbsp;&nbsp;时间：
+						<select id="typeId" onchange="tm_switchTime()">
+							<option value="today">--Today--</option>
+							<option value="year">--This Year--</option>
 						</select>
-						金额范围
-						<input type="text" id="minMoney" class="range">到 
-						<input type="text" id="maxMoney" class="range" > 
-						<input type="button" onclick="tm_searchProfit(this,true)" value="搜 索">
+					</div>
+					<div class="fl mar_lef10 charttype" style="line-height:35px;">
+						展示图形：
+						<select onchange="tm_change_line(this)" class="fr" id="sel">
+							<option value="column2d">column2d</option>
+							<option value="line">line</option>
+							<option value="bar2d">bar2d</option>
+							<script type="text/html" id="today_opts">
+								<option value="column2d">column2d</option>
+								<option value="line">line</option>
+								<option value="bar2d">bar2d</option>
+							</script>
+							<script type="text/html" id="year_opts">
+								<option value="column2d">column2d</option>
+								<option value="line">line</option>
+								<option value="bar2d">bar2d</option>
+							</script>
+						</select>
 					</div>
 				</div>
 				<div>
-					<select onchange="tm_change_line(this)" class="fr">
-							<option>--请选择--</option>
-							<option value="mscolumn2d">mscolumn2d</option>
-							<option value="mscolumn3d">mscolumn3d</option>
-							<option value="msline">msline</option>
-							<option value="msbar2d">msbar2d</option>
-							<option value="msbar3d">msbar3d</option>
-							<option value="msarea">msarea</option>
-							<option value="marimekko">marimekko</option>
-							<option value="zoomline">zoomline</option>
-					</select>
 					<div class="fl">
 						<div id="chart3"></div>
 					</div>
@@ -80,7 +79,6 @@
 	  </div>
 	</div>
 	<script type="text/javascript">
-	
 		$(function(){
 			var height = $(window).height();
 			$("#sidebar").height(height-55);
@@ -90,78 +88,37 @@
 				$("#sidebar").height(height-55);
 				$("#contentbox").height(height-90);
 			});
-			
-			tm_loadingData();
-			tm_loadingYear();
-			tm_loadingType();
-			//testJson()；
+			tm_loadingData("column2d");
+			/* tm_loadingYear();
+			tm_loadingType(); */
 		});
-		
+		//变换 展示图形
 		function tm_change_line(obj){
 			var value = obj.value;
-			tm_loadingType(value);
-		}
-		
-		/*统计当年出每种收入类型的 每个月消费明细对比*/
-		function tm_loadingType(type){
-			$.ajax({
-				type:"post",
-				url:basePath+"/json/profit/detailType",
-				success:function(data){
-					var jsonData = eval("("+data.result+")");
-					var arr = [];
-					for(var key in jsonData){
-						var jdata = jsonData[key];
-						//把你表中的分类查询出来，缓存起来返回一个hashMap id=key namev=alue
-						/* var ldata = tm_getType(key); */
-						/* var label = ldata.name,color=ldata.color; */
-						var html = "<dataset seriesname='"+label+"' color='"+color+"'>";
-						var length = jdata.length;
-						for(var i=0;i<length;i++){
-							/* for(var k in jdata[i]){
-								html+="<set label='"+jdata[i][k]+"' value='"+jdata[i][k]+"' />";
-							} */
-						}
-						html+="</dataset>";
-						arr.push(html);
-					}
-					if(isEmpty(type))type="mscolumn2d";
-					$.tzChart({target:"chart3",type:type,height:"480",width:"100%",data:
-					"<chart caption='2014年度收入类型统计明细对比'  subcaption='' xaxisname='月份' yaxisname='每月/元' palette='3' bgcolor='e5e5e5' canvasbgcolor='66D6FF' canvasbgalpha='5' canvasborderthickness='1' canvasborderalpha='20' legendshadow='0' numbersuffix='￥' showvalues='0' alternatehgridcolor='ffffff' alternatehgridalpha='100' showborder='0' legendborderalpha='0' legendiconscale='1.5' divlineisdashed='1'>"+
-					"<categories>"+
-					"<category label='一月' />"+
-					"<category label='二月' />"+
-					"<category label='三月' />"+
-					"<category label='四月' />"+
-					"<category label='五月' />"+
-					"<category label='六月' />"+
-					"<category label='七月' />"+
-					"<category label='八月' />"+
-					"<category label='九月' />"+
-					"<category label='十月' />"+
-					"<category label='十一月' />"+
-					"<category label='十二月' />"+
-					"</categories>"+arr.toString()+
-					"<styles>"+
-					"<definition>"+
-					"<style name='captionFont' type='font' size='15' />"+
-					"</definition>"+
-					"<application>"+
-					"<apply toobject='caption' styles='captionfont' />"+
-					"</application>"+
-					"</styles>"+
-					"</chart>"
-					});
-				}
-			});
+			tm_loadingData(value);
 		}
 		
 		function tm_getType(key){
 			//执行一个ajax到后台去查询所有的分类
+			var options={
+				url:basePath+"profit/listTemplate",
+				data:{"startIndex":pageNum*pageSize,"pageSize":pageSize,"typeId":typeId,"maxMoney":maxMoney,"minMoney":minMoney},
+				callback:function(data){
+					$("#tbody").html(data);
+					keyHighlighter(typeName);
+					if(callback){
+						var itemCount =$("#itemCount").val();
+						$("#totalNum").text(itemCount);
+						callback(itemCount);
+					}
+				}
+			};
+			$.yj_utils.yj_ajax(options);
 			var json = {
 				1:{name:"工资",color:"F97D10"},	
 				2:{name:"红包",color:"FF0000"},	
-				3:{name:"基金",color:"141414"},	
+				3:{name:"基金",color:"141414"},
+				4:{name:"中奖",color:"ccc"},
 				5:{name:"生活费",color:"FF0045"},	
 				6:{name:"理财",color:"CC1414"}
 			};
@@ -169,85 +126,50 @@
 		}
 		
 		/*统计今天的收入金额排行*/
-		function tm_loadingData(){
+		function tm_loadingData(type){
 			$.ajax({
 				type:"post",
-				url:basePath+"/json/profit/detailAjax",
+				url:basePath+"ajax/profit/todayProfit",
 				success:function(data){
-					var jsonData = data.profitBeans;
-					var length = jsonData.length;
-					var html = "";
-					for(var i=0;i<length;i++){
-						html+="<set  value='"+jsonData[i].money+"' alpha='100' tooltext='描述: {br}"+jsonData[i].description+"{br}添加时间:{br}"+jsonData[i].createTime+"' />";
+					if(isEmpty(data.profits)){
+						alert("数据为空！");
+					}else{
+						var jsonData = data.profits;
+						var length = jsonData.length;
+						var html = "";
+						for(var i=0;i<length;i++){
+							var str=jsonData[i].createTime;
+							var pos =str.indexOf(":");
+							var dateString=str.substr(pos-2);
+							html+="<set label='"+tm_getType(jsonData[i].typeId).name+"'  value='"+jsonData[i].money+"' alpha='100' tooltext='金额："+jsonData[i].money+"元{br}描述："+jsonData[i].description+"{br}添加时间："+dateString+"' />";
+						}
+						$.tzChart({
+							target:"chart",
+							type:type,
+							height:"360",
+							width:"31%",
+							data:"<chart showLegend= '1' enableMultiSlicing= '0' slicingDistance= '15' showPercentValues= '1' showPercentInTooltip= '0' plotTooltext= 'Type : $label{br}Money : $datavalue' theme= 'fint' caption='今日收入' xaxisName='"+new Date().format("yyyy年MM月dd日")+"' yaxisname='收入(元)' numberprefix='￥' palettecolors='#EED17F,#97CBE7,#074868,#B0D67A,#2C560A,#DD9D82' bgcolor='#ffffff' borderalpha='20' canvasborderalpha='0' useplotgradientcolor='0' plotborderalpha='10' placevaluesinside='1' rotatevalues='1' valuefontcolor='#ffffff' showxaxisline='1' xaxislinecolor='#999999' divlinecolor='#999999' divlinedashed='1' showalternatehgridcolor='0' subcaptionfontbold='0' subcaptionfontsize='14'>"+html+"</chart>"
+						});
 					}
-					$.tzChart({target:"chart",type:"pie2d",height:"360",width:"31%",data:"<chart caption='今天收入金额排行' numberprefix='￥' plotgradientcolor='' bgcolor='e5e5e5' showalternatehgridcolor='0' showplotborder='0' divlinecolor='CCCCCC' showvalues='1' showcanvasborder='0' canvasbordercolor='CCCCCC' canvasborderthickness='1' yaxismaxvalue='30000' captionpadding='30' linethickness='3' sshowanchors='0' yaxisvaluespadding='15' showlegend='1' use3dlighting='0' showshadow='0' legendshadow='0' legendborderalpha='0' showborder='0' palettecolors='#111111,#4684b2,#ff00000,#B0D67A,#2C560A,#DD9D82'>"+html+"</chart>"});
 				}
 			});
 		}
-		
+		//时间字符串格式化
 		//实现本周，本年，本月,三天前，昨天的收入情况
-		function tm_loadingYear(){
+		/* function tm_loadingYear(){
 			$.ajax({
 				type:"post",
 				url:basePath+"/json/profit/detailYear",
 				success:function(data){
-					/* var jsonData = eval("("+data.result+")"); */
+					var jsonData = eval("("+data.result+")");
 					var html = "";
-					/* for(var key in jsonData){
+					for(var key in jsonData){
 						html+="<set label='"+key+"'  value='"+jsonData[key]+"'/>";
-					} */
+					}
 					$.tzChart({target:"chart2",type:"column2d",height:"360",width:"67%",data:"<chart caption='2014年度收入明细' yaxisname='收入金额(月/元)' numberprefix='￥'  bgcolor='e5e5e5' showborder='0' theme='fint'>"+html+"</chart>"});
 				}
 			});
-		}
-		
-		
-		
-		
-		
-
-		//测试javascript如何获取java集合和实体的数据
-		function testJson(){
-// 			var json1 = {id:1,money:100};
-// 			var json2 = {id:2,money:200};
-// 			var arr = [];
-// 			arr.push(json1);
-// 			arr.push(json2);
-// 			for(var i=0;i<arr.length;i++){
-// 				alert(arr[i].id+"==="+arr[i].money);
-// 			}
-			
-			//获取javascript对象的key和value的方式
-			// 		var jsonData  = {
-			// 				1:100,
-			// 				2:200,
-			// 				3:89
-			// 		}
-					
-			// 		for(var key in jsonData){
-			// 			alert(key+"==="+jsonData[key]);
-			// 		}
-			
-			$.ajax({
-				type:"post",
-				url:basePath+"/json/profit/testJson",
-				success:function(data){
-					//获取集合
-					/*var jsonString = data.result;
-					var jsonData = eval("("+jsonString+")");
-					for(var i=0;i<jsonData.length;i++){
-						$(".page").prepend("<div>"+jsonData[i].id+"==="+jsonData[i].money+"</div>")
-					}*/
-					
-					
-					//获取单条
-					var jsonString = data.result;
-					var jsonData = eval("("+jsonString+")");
-					alert(jsonData.id+"==="+jsonData.money);
-				}
-			});
-		};
-		
+		} */
 	</script>
   </body>
 </html>

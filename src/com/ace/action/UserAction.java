@@ -2,6 +2,7 @@ package com.ace.action;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.ace.action.impl.BaseAction;
 import com.ace.dao.UserDao;
 import com.ace.entity.User;
 

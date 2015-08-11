@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+<struts>
+	<package name="default" extends="json-default">
+		<interceptors>
+			<interceptor name="loginInterceptor" class="com.ace.core.LoginInterceptor"></interceptor>
+			<interceptor-stack name="loginStack">
+				<interceptor-ref name="loginInterceptor"></interceptor-ref>
+				<interceptor-ref name="defaultStack"></interceptor-ref>
+			</interceptor-stack>
+		</interceptors>
+		<!-- 全局 -->
+		<global-results>
+			<result name="login">/login.jsp</result>
+			<result name="loginAction" type="redirect">login</result>
+		</global-results>
+	</package>
+</struts>

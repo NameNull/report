@@ -5,6 +5,8 @@ import java.util.List;
 
 import org.apache.struts2.ServletActionContext;
 
+import com.ace.action.impl.BaseAction;
+import com.ace.dao.ProfitChartDao;
 import com.ace.dao.ProfitDao;
 import com.ace.entity.Profit;
 import com.ace.entity.User;
@@ -39,6 +41,17 @@ public class ProfitAction extends BaseAction{
 	private Integer minMoney;
 	//最大金额
 	private Integer maxMoney;
+	/**
+	 * 
+	 * @description 今日金额展示--图表
+	 * @方法名 todayProfit
+	 * @return String
+	 * @exception
+	 */
+	public String todayProfit(){
+		profits=ProfitChartDao.findTodayProfit();
+		return AJAX_SUCCESS;
+	}
 	
 	/**
 	 * 
@@ -100,6 +113,7 @@ public class ProfitAction extends BaseAction{
 	 * @exception
 	 */
 	public String detail(){
+		maps=ProfitDao.FindProfitType();
 		return SUCCESS;
 	}
 	/**

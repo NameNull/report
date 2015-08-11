@@ -26,7 +26,7 @@
 	    <!-- 内容区域 -->
 	    <div id="content">
 	    	<div class="cheader">
-	    		<p class="ta_title"><a href="profit/list">【返回列表】</a>添加收入</p>
+	    		<p class="ta_title"><a href="profit/list">【返回列表】</a></p>
 	    	</div>
 	    	<!--表格-->
 			<div id="contentbox">

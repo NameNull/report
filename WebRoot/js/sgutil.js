@@ -932,11 +932,11 @@ $.tmArray = {
 	}
 	
  };
-
 /*日期工具类*/
 $.tmDate = {
  /*转换日期*/
  _transferDate : function(date){
+	 alert(1);
 	if(typeof date =="string"){
 		return new Date(date.replace(/-/ig,"/"));
 	}else{

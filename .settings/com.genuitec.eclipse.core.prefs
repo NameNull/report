@@ -1,3 +1,3 @@
 eclipse.preferences.version=1
-validator.Checked=WebRoot/js/chart,WebRoot/js/jquery.pagination.js,WebRoot/js/tmajax.js,WebRoot/js/jquery-1.11.1.min.js,WebRoot/js/sg.js,WebRoot/js/upload
+validator.Checked=config/branch/struts-common.xml,config/branch/struts-ajax.xml,WebRoot/js/chart,src/config/struts-ajax.xml,config/struts.xml,WebRoot/js/jquery.pagination.js,WebRoot/js/tmajax.js,WebRoot/js/jquery-1.11.1.min.js,WebRoot/js/sg.js,WebRoot/pages/profit/detail.jsp,src/config/struts-common.xml,WebRoot/js/upload
 validator.Unchecked=

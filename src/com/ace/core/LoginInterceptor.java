@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.struts2.ServletActionContext;
 
-import com.ace.action.BaseAction;
+import com.ace.action.impl.BaseAction;
 import com.ace.entity.User;
 import com.ace.util.StringUtils;
 import com.opensymphony.xwork2.ActionInvocation;
