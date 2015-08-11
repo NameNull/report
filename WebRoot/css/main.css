@@ -1,4 +1,5 @@
 body,html{overflow:hidden;}
+.clear{clear:both;}
 #container{margin:0 auto;width:100%;}
 #header{min-width:800px;position:relative;position:fixed;top:0;left:0;z-index:99;width:100%;height:45px;border-bottom:#080808 1px solid;background-color:#222;-webkit-box-shadow:0 0 4px #333;-moz-box-shadow:0 0 4px #333;box-shadow:0 0 4px #333}
 #mainContent{margin-top:46px;margin-bottom:1px;margin-left:1px;}
