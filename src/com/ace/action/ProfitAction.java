@@ -41,6 +41,19 @@ public class ProfitAction extends BaseAction{
 	private Integer minMoney;
 	//最大金额
 	private Integer maxMoney;
+	//图表--年份
+	private String year;
+	/**
+	 * 
+	 * @description 获取年收入--图表
+	 * @方法名 findYearProfit
+	 * @return String
+	 * @exception
+	 */
+	public String yearProfit(){
+		maps=ProfitChartDao.findYearProfitDetails(year);
+		return AJAX_SUCCESS;
+	}
 	/**
 	 * 
 	 * @description 今日金额展示--图表
@@ -52,7 +65,6 @@ public class ProfitAction extends BaseAction{
 		profits=ProfitChartDao.findTodayProfit();
 		return AJAX_SUCCESS;
 	}
-	
 	/**
 	 * 
 	 * @description 进入收入列表
@@ -231,4 +243,10 @@ public class ProfitAction extends BaseAction{
 	public void setMaxMoney(Integer maxMoney) {
 		this.maxMoney = maxMoney;
 	}
+	public void setYear(String year) {
+		this.year = year;
+	}
+	/*public String getYear() {
+		return year;
+	}*/
 }

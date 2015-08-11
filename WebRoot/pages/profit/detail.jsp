@@ -38,7 +38,7 @@
 				<div class="ta_selete tmui-buttons">
 					<div class="fr">
 						&nbsp;&nbsp;时间：
-						<select id="typeId" onchange="tm_switchTime()">
+						<select id="typeId" onchange="tm_change_time(this)">
 							<option value="today">--Today--</option>
 							<option value="year">--This Year--</option>
 						</select>
@@ -55,9 +55,9 @@
 								<option value="bar2d">bar2d</option>
 							</script>
 							<script type="text/html" id="year_opts">
-								<option value="column2d">column2d</option>
-								<option value="line">line</option>
-								<option value="bar2d">bar2d</option>
+								<option value="msline">msline</option>
+								<option value="mscolumn2d">mscolumn2d</option>
+								<option value="msarea">msarea</option>
 							</script>
 						</select>
 						<select class="dis_none" id="type_opts">
@@ -89,19 +89,48 @@
 				$("#sidebar").height(height-55);
 				$("#contentbox").height(height-90);
 			});
-			tm_loadingData("column2d");
+			tm_loadingTodayData("column2d");
 		});
 		//变换展示图形
 		function tm_change_line(obj){
 			var value = obj.value;
-			tm_loadingData(value);
+			var year=new Date().format("yyyy");
+			var time=$("#typeId").find("option:selected").val();
+			switch(time){
+				case "today":
+					tm_loadingTodayData(value);
+					break;
+				case "year":
+					tm_loadingYearData(value,year);
+					break;
+				default:
+					tm_loadingTodayData(value);
+					break;
+			}
+		}
+		//变换时间
+		function tm_change_time(obj){
+			var value=obj.value;
+			var year=new Date().format("yyyy");
+			switch(value){
+				case "today":
+					tm_loadingTodayData("column2d");
+					$("#sel").html($("#today_opts").html());
+					break;
+				case "year":
+					tm_loadingYearData("msline",year);
+					$("#sel").html($("#year_opts").html());
+					break;
+				default:
+					tm_loadingTodayData("column2d");break;
+			}
 		}
 		//arr转字符串
 		function getTypeName(key){
 			return arr[key].name;
 		}
 		/*统计今天的收入金额排行*/
-		function tm_loadingData(type){
+		function tm_loadingTodayData(type){
 			var options={
 				url:basePath+"ajax/profit/todayProfit",
 				callback:function(data){
@@ -120,7 +149,7 @@
 						$.tzChart({
 							target:"chart",
 							type:type,
-							height:"360",
+							height:"450",
 							width:"100%",
 							data:"<chart showLegend= '1' enableMultiSlicing= '0' slicingDistance= '15' showPercentValues= '1' showPercentInTooltip= '0' plotTooltext= 'Type : $label{br}Money : $datavalue' theme= 'fint' caption='今日收入' xaxisName='"+new Date().format("yyyy年MM月dd日")+"' yaxisname='收入(元)' numberprefix='￥' palettecolors='#EED17F,#97CBE7,#074868,#B0D67A,#2C560A,#DD9D82' bgcolor='#ffffff' borderalpha='20' canvasborderalpha='0' useplotgradientcolor='0' plotborderalpha='10' placevaluesinside='1' rotatevalues='1' valuefontcolor='#ffffff' showxaxisline='1' xaxislinecolor='#999999' divlinecolor='#999999' divlinedashed='1' showalternatehgridcolor='0' subcaptionfontbold='0' subcaptionfontsize='14'>"+html+"</chart>"
 						});
@@ -130,57 +159,60 @@
 			$.yj_utils.yj_ajax(options);
 		}
 		/*统计当年出每种收入类型的 每个月消费明细对比*/
-		function tm_loadingType(type){
-			$.ajax({
-				type:"post",
-				url:basePath+"/json/profit/detailType",
-				success:function(data){
-					var jsonData = eval("("+data.result+")");
-					var arr = [];
-					for(var key in jsonData){
-						var jdata = jsonData[key];
-						//把你表中的分类查询出来，缓存起来返回一个hashMap id=key namev=alue
-						/* var ldata = tm_getType(key); */
-						/* var label = ldata.name,color=ldata.color; */
-						var html = "<dataset seriesname='"+label+"' color='"+color+"'>";
-						var length = jdata.length;
-						for(var i=0;i<length;i++){
-							/* for(var k in jdata[i]){
-								html+="<set label='"+jdata[i][k]+"' value='"+jdata[i][k]+"' />";
-							} */
+		function tm_loadingYearData(type,year){
+			var options={
+				url:basePath+"ajax/profit/yearProfit",
+				data:{year:year},
+				callback:function(data){
+					if(isEmpty(data.maps)){
+						alert("数据转换异常！");
+					}else{
+						var jsonData = data.maps;
+						var ilength = jsonData.length;
+						var ihtml = ""; 
+						for(var i=0;i<ilength;i++){
+							var jhtml="<dataset seriesname='"+getTypeName(jsonData[i].type)+"'>";
+							var month_money=jsonData[i].month_money;
+							var jlength=month_money.length;
+							for(var j=0;j<jlength;j++){
+								jhtml+="<set value='"+month_money[j].money+"'/>";
+							}
+							jhtml+="</dataset>";
+							ihtml+=jhtml;
 						}
-						html+="</dataset>";
-						arr.push(html);
+						$.tzChart({
+							target:"chart",
+							type:type,
+							height:"450",
+							width:"100%",
+							data:"<chart caption='月收入情况' subcaption='（基于收入类型）'  yaxisname='收入(元)'  numberprefix='￥' plotgradientcolor='' bgcolor='FFFFFF' showalternatehgridcolor='0' divlinecolor='CCCCCC' showvalues='0' showcanvasborder='1' canvasborderalpha='0' canvasbordercolor='CCCCCC' canvasborderthickness='1' captionpadding='30' linethickness='3' yaxisvaluespadding='15' legendshadow='0' legendborderalpha='0' palettecolors='#f8bd19,#008ee4,#33bdda,#e44a00,#6baa01,#583e78' showborder='0'>"+
+							"<categories>"+
+							"<category label='一月' />"+
+							"<category label='二月' />"+
+							"<category label='三月' />"+
+							"<category label='四月' />"+
+							"<category label='五月' />"+
+							"<category label='六月' />"+
+							"<category label='七月' />"+
+							"<category label='八月' />"+
+							"<category label='九月' />"+
+							"<category label='十月' />"+
+							"<category label='十一月' />"+
+							"<category label='十二月' />"+
+							"</categories>"+ihtml+"<styles>"+
+							"<definition>"+
+							"<style name='captionFont' type='font' size='15' />"+
+							"</definition>"+
+							"<application>"+
+							"<apply toobject='caption' styles='captionfont' />"+
+							"</application>"+
+							"</styles>"+
+							"</chart>"
+						}); 
 					}
-					if(isEmpty(type))type="mscolumn2d";
-					$.tzChart({target:"chart3",type:type,height:"480",width:"100%",data:
-					"<chart caption='2014年度收入类型统计明细对比'  subcaption='' xaxisname='月份' yaxisname='每月/元' palette='3'  bgcolor='e5e5e5' canvasbgcolor='66D6FF' canvasbgalpha='5' canvasborderthickness='1' canvasborderalpha='20' legendshadow='0' numbersuffix='￥' showvalues='0' alternatehgridcolor='ffffff' alternatehgridalpha='100' showborder='0' legendborderalpha='0' legendiconscale='1.5' divlineisdashed='1'>"+
-					"<categories>"+
-					"<category label='一月' />"+
-					"<category label='二月' />"+
-					"<category label='三月' />"+
-					"<category label='四月' />"+
-					"<category label='五月' />"+
-					"<category label='六月' />"+
-					"<category label='七月' />"+
-					"<category label='八月' />"+
-					"<category label='九月' />"+
-					"<category label='十月' />"+
-					"<category label='十一月' />"+
-					"<category label='十二月' />"+
-					"</categories>"+arr.toString()+
-					"<styles>"+
-					"<definition>"+
-					"<style name='captionFont' type='font' size='15' />"+
-					"</definition>"+
-					"<application>"+
-					"<apply toobject='caption' styles='captionfont' />"+
-					"</application>"+
-					"</styles>"+
-					"</chart>"
-					});
 				}
-			});
+			};
+			$.yj_utils.yj_ajax(options);
 		}
 		//实现本周，本年，本月,三天前，昨天的收入情况
 		/* function tm_loadingYear(){
